@@ -1,8 +1,13 @@
 {
-  "name": "backbone.anchored-view",
-  "version": "0.0.2",
-  "description": "Backbone removable view",
-  "main": "backbone.anchored-view.js",
+  "name": "backbone.yacp",
+  "version": "0.0.0",
+  "description": "yet another colorspicker",
+  "homepage": "https://github.com/zyll/yacp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jquery/jquery.git"
+  },
+  "main": "backbone.yacp.js",
   "directories": {
     "test": "test"
   },
@@ -10,9 +15,11 @@
     "test": "grunt"
   },
   "keywords": [
-    "backbone"
+    "backbone", "colorpicker"
   ],
-  "author": "zyll",
+  "authors": [
+    "zyll <gilles.robit@af83.com>"
+  ],
   "license": "MIT",
   "devDependencies": {
     "grunt": "~0.4.2",
