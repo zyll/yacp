@@ -15,6 +15,10 @@
 
     Yacp.prototype.defaultColors = ["#722929", "#7f7f26", "#497e25", "#487d7c", "#16166d", "#701f7f", "#7a7a7a", "#898989", "#73481a", "#5c7e24", "#477c4a", "#2b477b", "#3e1b71", "#712b56", "#da3535", "#f4f43d", "#8af33c", "#86ecec", "#ce16eb", "#b4f441", "#3a3a3a", "#a4f2f2", "#e58ad5", "#d4ff74", "#9fd1fd", "#f2ce79", "#b1b1fd", "#f5f5b2", "#b1b1b1", "#f2f2f2", "#fff", "#1919d0"];
 
+    Yacp.prototype.tagName = 'section';
+
+    Yacp.prototype.className = 'yacp-container';
+
     Yacp.prototype.events = {
       'click a.yacp-custom': 'onCustom'
     };
@@ -109,7 +113,7 @@
       _ref2 = this.colors;
       for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
         color = _ref2[_i];
-        this.$content.append($("<li><a href=\"#\" class=\"yacp-color\" style=\"background-color: " + color + ";\" data-color=" + color + ">" + color + "</a></li>"));
+        this.$content.append($("<li><a href=\"#\" class=\"yacp-color\" style=\"background-color: " + color + ";\" data-color=" + color + "></a></li>"));
       }
       this.$el.html(this.$content.contents());
       return this;
@@ -132,6 +136,10 @@
       return _ref2;
     }
 
+    Minicolors.prototype.tagName = 'article';
+
+    Minicolors.prototype.className = 'yacp-minicolors';
+
     Minicolors.prototype.events = {
       'click a.yacp-confirm': 'onConfirm'
     };
@@ -143,7 +151,7 @@
     Minicolors.prototype.render = function() {
       this.$confirm = $("<a href=\"#\" class=\"yacp-confirm\">" + this.words.confirm + "</a>");
       this.$minicolors = $("<input class=\"minicolors\" type=\"hidden\">");
-      this.$el.append(this.$confirm, this.$minicolors);
+      this.$el.append(this.$minicolors, this.$confirm);
       this.$minicolors.minicolors('create', {
         inline: true
       }).minicolors('show');

@@ -6,6 +6,9 @@ class Backbone.Yacp extends Backbone.View
     "#9fd1fd", "#f2ce79", "#b1b1fd", "#f5f5b2", "#b1b1b1", "#f2f2f2", "#fff", "#1919d0"
   ]
 
+  tagName: 'section'
+  className: 'yacp-container'
+
   events:
     'click a.yacp-custom': 'onCustom'
 
@@ -60,7 +63,7 @@ class Backbone.Yacp.ColorsArray extends Backbone.View
   render: ->
     @$content = $ '<div/>'
     for color in @colors
-      @$content.append $ """<li><a href="#" class="yacp-color" style="background-color: #{color};" data-color=#{color}>#{color}</a></li>"""
+      @$content.append $ """<li><a href="#" class="yacp-color" style="background-color: #{color};" data-color=#{color}></a></li>"""
     @$el.html @$content.contents()
     @
 
@@ -69,6 +72,10 @@ class Backbone.Yacp.ColorsArray extends Backbone.View
     @trigger 'select', $(event.currentTarget).data 'color'
 
 class Backbone.Yacp.Minicolors extends Backbone.View
+
+  tagName: 'article'
+  className: 'yacp-minicolors'
+
   events:
     'click a.yacp-confirm': 'onConfirm'
 
@@ -78,7 +85,7 @@ class Backbone.Yacp.Minicolors extends Backbone.View
   render: ->
     @$confirm = $ """<a href="#" class="yacp-confirm">#{@words.confirm}</a>"""
     @$minicolors = $ """<input class="minicolors" type="hidden">"""
-    @$el.append @$confirm, @$minicolors
+    @$el.append @$minicolors, @$confirm
     @$minicolors.minicolors('create', inline: on).minicolors('show')
     @
 
