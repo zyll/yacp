@@ -1,4 +1,4 @@
-Backbone Yacp
+Backbone Yacp [![Build Status](https://travis-ci.org/zyll/yacp.png)](https://travis-ci.org/zyll/yacp) [![Dependency Status](https://david-dm.org/zyll/yacp.png)](https://david-dm.org/zyll/yacp)
 ==============
 
 ## Usage
