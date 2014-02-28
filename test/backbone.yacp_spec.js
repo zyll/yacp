@@ -13,7 +13,7 @@
       return expect(this.colors.colors).to.equal(Backbone.Yacp.prototype.defaultColors);
     });
     it('render all colors', function() {
-      return expect(this.colors.render().$body.text().match(/(#\d)/g)).to.have.length(this.colors.colors.length);
+      return expect(this.colors.render().$('td')).to.have.length(this.colors.colors.length);
     });
     return it('notify on clicking a color', function() {
       var spy;
@@ -21,7 +21,7 @@
       this.colors.render().listenTo(this.colors, 'select', spy);
       this.colors.$('a').first().click();
       expect(spy).to.have.been.calledOnce;
-      return expect(spy).to.have.been.calledWith('#011');
+      return expect(spy).to.have.been.calledWith('#722929');
     });
   });
 
@@ -50,7 +50,7 @@
       this.yacp.listenTo(this.yacp, 'select', spy);
       this.yacp.render().$('a').first().click();
       expect(spy).to.have.been.calledOnce;
-      return expect(spy).to.have.been.calledWith('#011');
+      return expect(spy).to.have.been.calledWith('#722929');
     });
   });
 

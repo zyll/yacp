@@ -13,7 +13,7 @@
       return _ref;
     }
 
-    Yacp.prototype.defaultColors = ["#011", "#025", "#033", "#044", "#055", "#066", "#077", "#090", "#012", "#023", "#034", "#045", "#056", "#067", "#078", "#091", "#013", "#024", "#035", "#046", "#057", "#070", "#079", "#092", "#014", "#025", "#036", "#047", "#060", "#071", "#080", "#093"];
+    Yacp.prototype.defaultColors = ["#722929", "#7f7f26", "#497e25", "#487d7c", "#16166d", "#701f7f", "#7a7a7a", "#898989", "#73481a", "#5c7e24", "#477c4a", "#2b477b", "#3e1b71", "#712b56", "#da3535", "#f4f43d", "#8af33c", "#86ecec", "#ce16eb", "#b4f441", "#3a3a3a", "#a4f2f2", "#e58ad5", "#d4ff74", "#9fd1fd", "#f2ce79", "#b1b1fd", "#f5f5b2", "#b1b1b1", "#f2f2f2", "#fff", "#1919d0"];
 
     Yacp.prototype.events = {
       'click a.custom': 'onCustom'
@@ -90,7 +90,7 @@
       return _ref1;
     }
 
-    ColorsArray.prototype.tagName = 'table';
+    ColorsArray.prototype.tagName = 'ul';
 
     ColorsArray.prototype.events = {
       'click a.color': 'onSelect'
@@ -100,25 +100,18 @@
       if (options == null) {
         options = {};
       }
-      this.cols = options.cols || 10;
       return this.colors = options.colors || Backbone.Yacp.prototype.defaultColors;
     };
 
     ColorsArray.prototype.render = function() {
-      var $cell, $row, col, pos, _i, _ref2;
-      this.$body = $('<tbody></tbody>');
-      pos = 0;
-      while (pos < this.colors.length && this.cols) {
-        this.$body.append($row = $('<tr></tr>'));
-        for (col = _i = 1, _ref2 = this.cols; 1 <= _ref2 ? _i <= _ref2 : _i >= _ref2; col = 1 <= _ref2 ? ++_i : --_i) {
-          if (!(pos < this.colors.length)) {
-            continue;
-          }
-          $row.append($cell = $("<td><a href=\"#\" class=\"color\" style=\"background-color: " + this.colors[pos] + ";\" data-color=" + this.colors[pos] + ">" + this.colors[pos] + "</a></td>"));
-          pos++;
-        }
+      var color, _i, _len, _ref2;
+      this.$content = $('<div/>');
+      _ref2 = this.colors;
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        color = _ref2[_i];
+        this.$content.append($("<li><a href=\"#\" class=\"color\" style=\"background-color: " + color + ";\" data-color=" + color + ">" + color + "</a></li>"));
       }
-      this.$el.html(this.$body);
+      this.$el.html(this.$content.contents());
       return this;
     };
 

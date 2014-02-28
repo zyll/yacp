@@ -11,14 +11,14 @@ describe 'ArrayColors', ->
     expect(@colors.colors).to.equal Backbone.Yacp::defaultColors
 
   it 'render all colors', ->
-    expect(@colors.render().$body.text().match /(#\d)/g).to.have.length @colors.colors.length
+    expect(@colors.render().$('td')).to.have.length @colors.colors.length
 
   it 'notify on clicking a color', ->
     spy = sinon.spy()
     @colors.render().listenTo @colors, 'select', spy
     @colors.$('a').first().click()
     expect(spy).to.have.been.calledOnce
-    expect(spy).to.have.been.calledWith '#011'
+    expect(spy).to.have.been.calledWith '#722929'
 
 describe 'Yacp', ->
   beforeEach ->
@@ -43,4 +43,4 @@ describe 'Yacp', ->
     @yacp.listenTo @yacp, 'select', spy
     @yacp.render().$('a').first().click()
     expect(spy).to.have.been.calledOnce
-    expect(spy).to.have.been.calledWith '#011'
+    expect(spy).to.have.been.calledWith '#722929'
