@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title>Example Backbone.Yacp</title>
+    <link rel="stylesheet" href="node_modules/mocha/mocha.css" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="bower_components/jquery-miniColors/jquery.minicolors.css" type="text/css" charset="utf-8" />
+</head>
+<body>
+  <h1>Backbone.Yacp</h1>
+  <input id="me" value="#333">
+  <script src="bower_components/jquery/dist/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="bower_components/lodash/dist/lodash.js" type="text/javascript" charset="utf-8"></script>
+  <script src="bower_components/backbone/backbone.js" type="text/javascript" charset="utf-8"></script>
+  <script src="bower_components/jquery-miniColors/jquery.minicolors.js" type="text/javascript" charset="utf-8"></script>
+  <script src="backbone.yacp.js" type="text/javascript" charset="utf-8"></script>
+
+  <script type="text/javascript" charset="utf-8">
+    var users = [];
+    var yacp = null;
+    function openYacp () {
+      if(yacp) {
+        yacp.remove();
+        yacp = null;
+      } else {
+        yacp = new Backbone.Yacp({users: users});
+        $(this).after(yacp.render().el);
+        yacp.listenTo(yacp, 'select', function(color) {
+          $('#me').val(color);
+          yacp.remove();
+          yacp = null;
+        });
+      }
+    }
+    $('#me').click(openYacp);
+  </script>
+</body>
+</html>

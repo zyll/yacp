@@ -1,0 +1,26 @@
+{
+  "name": "yacp",
+  "version": "0.0.0",
+  "homepage": "https://github.com/zyll/yacp",
+  "authors": [
+    "zyll <gilles.robit@af83.com>"
+  ],
+  "description": "yet another colorspicker",
+  "main": "backbone.yacp.js",
+  "keywords": [
+    "colorpicker"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.0",
+    "backbone": "~1.1.2",
+    "lodash": "~2.4.1",
+    "jquery-miniColors": "git://github.com/claviska/jquery-minicolors.git#2.1.1"
+  }
+}
