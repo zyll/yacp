@@ -7,7 +7,7 @@ class Backbone.Yacp extends Backbone.View
   ]
 
   events:
-    'click a.custom': 'onCustom'
+    'click a.yacp-custom': 'onCustom'
 
   words:
     custom: 'custom...'
@@ -18,7 +18,7 @@ class Backbone.Yacp extends Backbone.View
     @userPalette = new Backbone.Yacp.ColorsArray colors: @userColors
 
   render: ->
-    @$custom = $ """<a href="#" class="custom">#{@words.custom}</a>"""
+    @$custom = $ """<a href="#" class="yacp-custom">#{@words.custom}</a>"""
     @$el.append @viewPalette.render().el, @$custom, @userPalette.render().el
     @listenTo @viewPalette, 'select', @select
     @listenTo @userPalette, 'select', @select
@@ -47,27 +47,21 @@ class Backbone.Yacp extends Backbone.View
     super
 
 # @params [options] {object}
-# @params [options.cols] {integer} how many cols, default to 10
 # @params [options.colors] {array} colors arrays, default to libs one
 class Backbone.Yacp.ColorsArray extends Backbone.View
-  tagName: 'table'
+  tagName: 'ul'
 
   events:
-    'click a.color': 'onSelect'
+    'click a.yacp-color': 'onSelect'
 
   initialize: (options={})->
-    @cols = options.cols || 10
     @colors = options.colors || Backbone.Yacp::defaultColors
 
   render: ->
-    @$body = $ '<tbody></tbody>'
-    pos = 0
-    while pos < @colors.length and @cols
-      @$body.append $row = $ '<tr></tr>'
-      for col in [1..@cols] when pos < @colors.length
-        $row.append $cell = $ """<td><a href="#" class="color" style="background-color: #{@colors[pos]};" data-color=#{@colors[pos]}>#{@colors[pos]}</a></td>"""
-        pos++
-    @$el.html @$body
+    @$content = $ '<div/>'
+    for color in @colors
+      @$content.append $ """<li><a href="#" class="yacp-color" style="background-color: #{color};" data-color=#{color}>#{color}</a></li>"""
+    @$el.html @$content.contents()
     @
 
   onSelect: (event)->
@@ -76,13 +70,13 @@ class Backbone.Yacp.ColorsArray extends Backbone.View
 
 class Backbone.Yacp.Minicolors extends Backbone.View
   events:
-    'click a.confirm': 'onConfirm'
+    'click a.yacp-confirm': 'onConfirm'
 
   words:
     confirm: 'Ok'
 
   render: ->
-    @$confirm = $ """<a href="#" class="confirm">#{@words.confirm}</a>"""
+    @$confirm = $ """<a href="#" class="yacp-confirm">#{@words.confirm}</a>"""
     @$minicolors = $ """<input class="minicolors" type="hidden">"""
     @$el.append @$confirm, @$minicolors
     @$minicolors.minicolors('create', inline: on).minicolors('show')

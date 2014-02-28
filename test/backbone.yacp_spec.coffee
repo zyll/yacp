@@ -4,14 +4,11 @@ describe 'ArrayColors', ->
   afterEach ->
     @colors.remove()
 
-  it 'has a default cols number to 10', ->
-    expect(@colors.cols).to.be.eql 10
-
   it 'use default colors array', ->
     expect(@colors.colors).to.equal Backbone.Yacp::defaultColors
 
   it 'render all colors', ->
-    expect(@colors.render().$('td')).to.have.length @colors.colors.length
+    expect(@colors.render().$('li')).to.have.length @colors.colors.length
 
   it 'notify on clicking a color', ->
     spy = sinon.spy()
@@ -28,15 +25,15 @@ describe 'Yacp', ->
 
   it 'display 2 colors list', ->
     @yacp.render()
-    expect(@yacp.$ 'table').to.have.length 2
+    expect(@yacp.$ 'ul').to.have.length 2
 
   it 'first list is default palette', ->
     @yacp.render()
-    expect(@yacp.$('table').first().find('a')).to.have.length Backbone.Yacp::defaultColors.length
+    expect(@yacp.$('ul').first().find('a')).to.have.length Backbone.Yacp::defaultColors.length
 
   it 'last list is an empty palette', ->
     @yacp.render()
-    expect(@yacp.$('table').last().find('a')).to.have.length 0
+    expect(@yacp.$('ul').last().find('a')).to.have.length 0
 
   it 'notify on selecting a color in palette', ->
     spy = sinon.spy()

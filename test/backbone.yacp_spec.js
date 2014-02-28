@@ -6,14 +6,11 @@
     afterEach(function() {
       return this.colors.remove();
     });
-    it('has a default cols number to 10', function() {
-      return expect(this.colors.cols).to.be.eql(10);
-    });
     it('use default colors array', function() {
       return expect(this.colors.colors).to.equal(Backbone.Yacp.prototype.defaultColors);
     });
     it('render all colors', function() {
-      return expect(this.colors.render().$('td')).to.have.length(this.colors.colors.length);
+      return expect(this.colors.render().$('li')).to.have.length(this.colors.colors.length);
     });
     return it('notify on clicking a color', function() {
       var spy;
@@ -34,15 +31,15 @@
     });
     it('display 2 colors list', function() {
       this.yacp.render();
-      return expect(this.yacp.$('table')).to.have.length(2);
+      return expect(this.yacp.$('ul')).to.have.length(2);
     });
     it('first list is default palette', function() {
       this.yacp.render();
-      return expect(this.yacp.$('table').first().find('a')).to.have.length(Backbone.Yacp.prototype.defaultColors.length);
+      return expect(this.yacp.$('ul').first().find('a')).to.have.length(Backbone.Yacp.prototype.defaultColors.length);
     });
     it('last list is an empty palette', function() {
       this.yacp.render();
-      return expect(this.yacp.$('table').last().find('a')).to.have.length(0);
+      return expect(this.yacp.$('ul').last().find('a')).to.have.length(0);
     });
     return it('notify on selecting a color in palette', function() {
       var spy;
