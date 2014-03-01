@@ -92,3 +92,43 @@ class Backbone.Yacp.Minicolors extends Backbone.View
   onConfirm: (event)->
     event.preventDefault()
     @trigger 'select', @$minicolors.val()
+
+
+# @params [options] {object}
+# @params [options.el] {domElement}
+# @params [options.users] {array} customs colors arrays, default to empty
+class Backbone.Yacp.Input extends Backbone.View
+  className: 'yacp-colorSlector'
+
+  events:
+    'click input': 'onClick'
+
+  initialize: (options)->
+    @$el.addClass @className
+    @users = options.users || []
+    @yacp = null
+
+  render: ->
+    @$color = $ "<span class='color'></span>"
+    @$input = $ "<input placeholder='Color...'/>"
+    @$el.append @$color, @$input
+    @
+
+  onClick: (event)->
+    event.preventDefault()
+    if @yacp
+      @yacp.remove()
+      @yacp = null
+    else
+      @yacp = new Backbone.Yacp users: @users
+      @$input.after @yacp.render().el
+      @yacp.listenTo @yacp, 'select', (color)=>
+        @$input.val color
+        @$color.css 'background-color', color
+        @yacp.remove()
+        @yacp = null
+        @trigger 'select', color
+
+  remove: ->
+    @yacp?.remove()
+    super

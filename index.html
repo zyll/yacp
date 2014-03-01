@@ -5,29 +5,14 @@
     <title>Example Backbone.Yacp</title>
     <link rel="stylesheet" href="node_modules/mocha/mocha.css" type="text/css" charset="utf-8" />
     <link rel="stylesheet" href="bower_components/jquery-miniColors/jquery.minicolors.css" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="backbone.yacp.css" type="text/css" charset="utf-8" />
     <style>
       body { background: #fafafa; }
       main { display: block; width: 600px; margin: 10px auto; }
       main h1 { font: normal 30px/40px Helvetica; color: #333; text-align: center; }
       main > article { display: block; margin: 0 auto; padding: 10px 10px 20px 10px; width: 300px; background: #fff; box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); border-radius: 5px; }
       main > article h2 { margin: 0; font: normal 20px/30px Helvetica; color: #333; text-align: center; }
-      .colorSlector { position: relative; width: 70px; height: 24px; margin: 20px auto; padding: 0 0 0 25px; border: 1px solid #999; }
-      .colorSlector span { position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background-color: transparent; }
-      .colorSlector input { width: 100%; height: 24px; padding: 0; border: none; font: bold 16px/24px Helvetica; color: #333; }
-      .colorSlector input:focus { outline: none; }
       #myColor { display: block; width: 100%; height: 50px; border: 1px solid #666; background-color: transparent; font: normal 30px/50px Helvetica; text-align: center; color: #fff; text-shadow: 1px 1px 1px rgba(0, 0, 0, 1); }
-    </style>
-    <style>
-      .yacp-container { display: block; margin: 0 auto; width: 203px; background: #fff; box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); border-radius: 5px; }
-      .yacp-container ul { margin: 0; padding: 5px 5px 5px 6px; }
-      .yacp-container ul li { display: inline-block; margin: 2px; padding: 0; }
-      .yacp-container a.yacp-color { display: block; width: 18px; height: 18px; border: 1px solid #999; }
-      .yacp-container a.yacp-color:hover { box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2); }
-      .yacp-custom { display: block; font: bold 12px/20px Helvetica; color: #333; text-decoration: none; text-align: center; }
-      .yacp-custom:hover { text-decoration: underline; }
-      .yacp-minicolors { padding: 10px 14px; }
-      .yacp-minicolors .yacp-confirm { display: block; font: bold 12px/20px Helvetica; color: #333; text-decoration: none; text-align: center; }
-      .yacp-minicolors .yacp-confirm:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -37,10 +22,7 @@
       <header>
         <h2>Select your favorite color</h2>
       </header>
-      <p class='colorSlector'>
-        <span class='color'></span>
-        <input id="me" placeholder='Color...' />
-       </p>
+      <p id="color"></p>
       <p id="myColor" class='color'></p>
     </article>
   </main>
@@ -53,24 +35,12 @@
 
   <script type="text/javascript" charset="utf-8">
     var users = [];
-    var yacp = null;
-    function openYacp () {
-      if(yacp) {
-        yacp.remove();
-        yacp = null;
-      } else {
-        yacp = new Backbone.Yacp({users: users});
-        $(this).after(yacp.render().el);
-        yacp.listenTo(yacp, 'select', function(color) {
-          $('#me').val(color);
-          $('.color').css('background-color', color);
-          $('#myColor').html(color);
-          yacp.remove();
-          yacp = null;
-        });
-      }
-    }
-    $('#me').click(openYacp);
+    var $el = $('#color');
+    var color = new Backbone.Yacp.Input({el: $el, users: users});
+    color.render();
+    color.on('select', function(color) {
+      $('#myColor').css('background-color', color).text(color);
+    });
   </script>
 </body>
 </html>

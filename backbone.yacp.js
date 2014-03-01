@@ -1,5 +1,5 @@
 (function() {
-  var _ref, _ref1, _ref2,
+  var _ref, _ref1, _ref2, _ref3,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -164,6 +164,66 @@
     };
 
     return Minicolors;
+
+  })(Backbone.View);
+
+  Backbone.Yacp.Input = (function(_super) {
+    __extends(Input, _super);
+
+    function Input() {
+      _ref3 = Input.__super__.constructor.apply(this, arguments);
+      return _ref3;
+    }
+
+    Input.prototype.className = 'yacp-colorSlector';
+
+    Input.prototype.events = {
+      'click input': 'onClick'
+    };
+
+    Input.prototype.initialize = function(options) {
+      this.$el.addClass(this.className);
+      this.users = options.users || [];
+      return this.yacp = null;
+    };
+
+    Input.prototype.render = function() {
+      this.$color = $("<span class='color'></span>");
+      this.$input = $("<input placeholder='Color...'/>");
+      this.$el.append(this.$color, this.$input);
+      return this;
+    };
+
+    Input.prototype.onClick = function(event) {
+      var _this = this;
+      event.preventDefault();
+      if (this.yacp) {
+        this.yacp.remove();
+        return this.yacp = null;
+      } else {
+        this.yacp = new Backbone.Yacp({
+          users: this.users
+        });
+        this.$input.after(this.yacp.render().el);
+        return this.yacp.listenTo(this.yacp, 'select', function(color) {
+          _this.$input.val(color);
+          _this.$color.css('background-color', color);
+          _this.yacp.remove();
+          _this.yacp = null;
+          return _this.trigger('select', color);
+        });
+      }
+    };
+
+    Input.prototype.remove = function() {
+      var _ref4;
+      if ((_ref4 = this.yacp) != null) {
+        _ref4.remove();
+      }
+      return Input.__super__.remove.apply(this, arguments);
+    };
+
+    return Input;
 
   })(Backbone.View);
 

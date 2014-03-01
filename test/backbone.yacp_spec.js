@@ -51,4 +51,35 @@
     });
   });
 
+  describe('Yacp input', function() {
+    beforeEach(function() {
+      this.users = [];
+      return this.yacp = new Backbone.Yacp.Input({
+        users: this.users
+      });
+    });
+    afterEach(function() {
+      return this.yacp.remove();
+    });
+    return describe('when clicking on input', function() {
+      beforeEach(function() {
+        return this.yacp.render().$('input').click();
+      });
+      it('display 2 colors list ', function() {
+        return expect(this.yacp.$('ul')).to.have.length(2);
+      });
+      return describe('when clicking on first color ', function() {
+        beforeEach(function() {
+          this.spy = sinon.spy();
+          this.yacp.listenTo(this.yacp, 'select', this.spy);
+          return this.yacp.render().$('a').first().click();
+        });
+        return it('notify with first color', function() {
+          expect(this.spy).to.have.been.calledOnce;
+          return expect(this.spy).to.have.been.calledWith('#722929');
+        });
+      });
+    });
+  });
+
 }).call(this);

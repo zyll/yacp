@@ -41,3 +41,27 @@ describe 'Yacp', ->
     @yacp.render().$('a').first().click()
     expect(spy).to.have.been.calledOnce
     expect(spy).to.have.been.calledWith '#722929'
+
+describe 'Yacp input', ->
+  beforeEach ->
+    @users = []
+    @yacp = new Backbone.Yacp.Input users: @users
+  afterEach ->
+    @yacp.remove()
+
+  describe 'when clicking on input', ->
+    beforeEach ->
+      @yacp.render().$('input').click()
+
+    it 'display 2 colors list ', ->
+      expect(@yacp.$ 'ul').to.have.length 2
+
+    describe 'when clicking on first color ', ->
+      beforeEach ->
+        @spy = sinon.spy()
+        @yacp.listenTo @yacp, 'select', @spy
+        @yacp.render().$('a').first().click()
+
+      it 'notify with first color', ->
+        expect(@spy).to.have.been.calledOnce
+        expect(@spy).to.have.been.calledWith '#722929'
