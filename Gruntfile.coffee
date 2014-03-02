@@ -3,6 +3,7 @@ module.exports = (grunt)->
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-jshint'
+  grunt.loadNpmTasks 'grunt-contrib-stylus'
   grunt.loadNpmTasks 'grunt-coffeelint'
   grunt.loadNpmTasks 'grunt-mocha'
   grunt.loadNpmTasks 'grunt-bower-task'
@@ -26,6 +27,10 @@ module.exports = (grunt)->
       test:
         files:
           'test/backbone.yacp_spec.js': ['test/backbone.yacp_spec.coffee']
+    stylus:
+      assets:
+        files:
+          'backbone.yacp.css': ['backbone.yacp.styl']
     mocha:
       options:
         run: true
@@ -33,11 +38,11 @@ module.exports = (grunt)->
       test:
         src: ['test/test.html']
     watch:
-      files: ['*.coffee', 'test/**/*.coffee']
-      tasks: ['coffeelint', 'coffee', 'mocha']
+      files: ['*.coffee', 'test/**/*.coffee', '*.styl']
+      tasks: ['coffeelint', 'coffee', 'stylus', 'mocha']
     bower:
       install:
         targetDir: 'bower_components'
         copy: no
 
-  grunt.registerTask 'default', ['bower', 'jshint', 'coffeelint', 'coffee', 'mocha']
+  grunt.registerTask 'default', ['bower', 'jshint', 'coffeelint', 'coffee', 'stylus', 'mocha']

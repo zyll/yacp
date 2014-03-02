@@ -15,9 +15,13 @@
     "test": "grunt"
   },
   "keywords": [
-    "backbone", "colorpicker"
+    "backbone",
+    "colorpicker"
   ],
-  "authors": ["zyll", "shakaman"],
+  "authors": [
+    "zyll",
+    "shakaman"
+  ],
   "license": "MIT",
   "devDependencies": {
     "grunt": "~0.4.2",
@@ -30,6 +34,7 @@
     "sinon": "~1.7.3",
     "grunt-contrib-watch": "~0.5.3",
     "sinon-chai": "~2.4.0",
-    "grunt-bower-task": "~0.3.4"
+    "grunt-bower-task": "~0.3.4",
+    "grunt-contrib-stylus": "~0.13.2"
   }
 }
