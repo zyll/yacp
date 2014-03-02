@@ -175,7 +175,7 @@
       return _ref3;
     }
 
-    Input.prototype.className = 'yacp-colorSlector';
+    Input.prototype.className = 'yacp-colorSelector';
 
     Input.prototype.events = {
       'click input': 'onClick'

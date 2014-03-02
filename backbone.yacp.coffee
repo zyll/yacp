@@ -98,7 +98,7 @@ class Backbone.Yacp.Minicolors extends Backbone.View
 # @params [options.el] {domElement}
 # @params [options.users] {array} customs colors arrays, default to empty
 class Backbone.Yacp.Input extends Backbone.View
-  className: 'yacp-colorSlector'
+  className: 'yacp-colorSelector'
 
   events:
     'click input': 'onClick'
