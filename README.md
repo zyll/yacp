@@ -27,7 +27,10 @@ yacp deps :
     el: $el,
     users: users,
     input: $el.find('input'),
-    color: $el.find('.color')
+    color: $el.find('.color'),
+    minicolors: {
+      opacity: true
+    }
   });
   color.render();
   color.on('select', function(color) {
@@ -41,6 +44,8 @@ yacp deps :
 
 * node
 * grunt
+
+custom ui color picker fallback on [jquery minicolors](https://github.com/claviska/jquery-minicolors).
 
 ## Install
 

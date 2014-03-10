@@ -104,7 +104,10 @@
       if (options == null) {
         options = {};
       }
-      return this.colors = options.colors || Backbone.Yacp.prototype.defaultColors;
+      this.colors = options.colors || Backbone.Yacp.prototype.defaultColors;
+      return this.minicolors = options.minicolors || {
+        inline: true
+      };
     };
 
     ColorsArray.prototype.render = function() {
@@ -152,9 +155,7 @@
       this.$confirm = $("<a href=\"#\" class=\"yacp-confirm\">" + this.words.confirm + "</a>");
       this.$minicolors = $("<input class=\"minicolors\" type=\"hidden\">");
       this.$el.append(this.$minicolors, this.$confirm);
-      this.$minicolors.minicolors('create', {
-        inline: true
-      }).minicolors('show');
+      this.$minicolors.minicolors('create', this.minicolors).minicolors('show');
       return this;
     };
 
@@ -182,10 +183,16 @@
     };
 
     Input.prototype.initialize = function(options) {
+      if (options == null) {
+        options = {};
+      }
       this.$el.toggleClass(this.className, true);
       this.users = options.users || [];
       this.$color = $(options.color);
       this.$input = $(options.input);
+      this.minicolors = options.minicolors || {
+        online: true
+      };
       return this.yacp = null;
     };
 
@@ -202,7 +209,8 @@
         return this.yacp = null;
       } else {
         this.yacp = new Backbone.Yacp({
-          users: this.users
+          users: this.users,
+          minicolors: this.minicolors
         });
         this.$input.after(this.yacp.render().el);
         return this.yacp.listenTo(this.yacp, 'select', function(color) {

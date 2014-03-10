@@ -44,7 +44,10 @@
       el: $el,
       users: users,
       input: $el.find('input'),
-      color: $el.find('.color')
+      color: $el.find('.color'),
+      minicolors: {
+        opacity: true
+      }
     });
     color.render();
     color.on('select', function(color) {

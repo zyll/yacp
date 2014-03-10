@@ -51,6 +51,7 @@ class Backbone.Yacp extends Backbone.View
 
 # @params [options] {object}
 # @params [options.colors] {array} colors arrays, default to libs one
+# @params [options.minicolors] {object} see https://github.com/claviska/jquery-minicolors
 class Backbone.Yacp.ColorsArray extends Backbone.View
   tagName: 'ul'
 
@@ -59,6 +60,7 @@ class Backbone.Yacp.ColorsArray extends Backbone.View
 
   initialize: (options={})->
     @colors = options.colors || Backbone.Yacp::defaultColors
+    @minicolors = options.minicolors || inline: on
 
   render: ->
     @$content = $ '<div/>'
@@ -86,7 +88,7 @@ class Backbone.Yacp.Minicolors extends Backbone.View
     @$confirm = $ """<a href="#" class="yacp-confirm">#{@words.confirm}</a>"""
     @$minicolors = $ """<input class="minicolors" type="hidden">"""
     @$el.append @$minicolors, @$confirm
-    @$minicolors.minicolors('create', inline: on).minicolors('show')
+    @$minicolors.minicolors('create', @minicolors).minicolors('show')
     @
 
   onConfirm: (event)->
@@ -98,18 +100,20 @@ class Backbone.Yacp.Minicolors extends Backbone.View
 # @params [options.el] {domElement}
 # @params [options.users] {array} customs colors arrays, default to empty
 # @params [options.input] {DomElement} input form field witch handle the colors
-# @params [options.colors] {DomElement} feedback domelement with real color
+# @params [options.color] {DomElement} feedback domelement with real color
+# @params [options.minicolors] {object} see https://github.com/claviska/jquery-minicolors
 class Backbone.Yacp.Input extends Backbone.View
   className: 'yacp-colorSelector'
 
   events:
     'click input': 'onClick'
 
-  initialize: (options)->
+  initialize: (options={})->
     @$el.toggleClass @className, on
     @users = options.users || []
     @$color = $ options.color
     @$input = $ options.input
+    @minicolors = options.minicolors || online: on
     @yacp = null
 
   render: ->
@@ -122,7 +126,9 @@ class Backbone.Yacp.Input extends Backbone.View
       @yacp.remove()
       @yacp = null
     else
-      @yacp = new Backbone.Yacp users: @users
+      @yacp = new Backbone.Yacp
+        users: @users
+        minicolors: @minicolors
       @$input.after @yacp.render().el
       @yacp.listenTo @yacp, 'select', (color)=>
         @$input.val color
