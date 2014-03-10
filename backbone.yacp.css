@@ -1,14 +1,1 @@
-.yacp-colorSelector{position:relative;width:70px;height:24px;margin:20px auto;padding:0 0 0 25px;border:1px solid #999;}
-.yacp-colorSelector span{position:absolute;top:2px;left:2px;width:20px;height:20px;background-color:transparent}
-.yacp-colorSelector input{width:100%;height:24px;padding:0;border:none;font:bold 16px/24px Helvetica;color:#333;}
-.yacp-colorSelector input:focus{outline:none}
-.yacp-container{display:block;margin:0 auto;width:203px;background:#fff;box-shadow:1px 1px 2px rgba(0,0,0,0.3);-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;}
-.yacp-container ul{margin:0;padding:5px 5px 5px 6px;}
-.yacp-container ul li{display:inline-block;margin:2px;padding:0}
-.yacp-container a.yacp-color{display:block;width:18px;height:18px;border:1px solid #999;}
-.yacp-container a.yacp-color:hover{box-shadow:1px 1px 0 rgba(0,0,0,0.2)}
-.yacp-custom{display:block;font:bold 12px/20px Helvetica;color:#333;text-decoration:none;text-align:center;}
-.yacp-custom:hover{text-decoration:underline}
-.yacp-minicolors{padding:10px 14px;}
-.yacp-minicolors .yacp-confirm{display:block;font:bold 12px/20px Helvetica;color:#333;text-decoration:none;text-align:center;}
-.yacp-minicolors .yacp-confirm:hover{text-decoration:underline}
+.yacp-colorSelector{position:relative;width:70px;height:24px;margin:20px auto;padding:0 0 0 25px;border:1px solid #999;}.yacp-colorSelector span{position:absolute;top:2px;left:2px;width:20px;height:20px;background-color:transparent}.yacp-colorSelector input{width:100%;height:24px;padding:0;border:none;font:bold 16px/24px Helvetica;color:#333;}.yacp-colorSelector input:focus{outline:none}.yacp-container{display:block;margin:0 auto;width:203px;background:#fff;box-shadow:1px 1px 2px rgba(0,0,0,0.3);-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;}.yacp-container ul{margin:0;padding:5px 5px 5px 6px;}.yacp-container ul li{display:inline-block;margin:2px;padding:0}.yacp-container a.yacp-color{display:block;width:18px;height:18px;border:1px solid #999;}.yacp-container a.yacp-color:hover{box-shadow:1px 1px 0 rgba(0,0,0,0.2)}.yacp-custom{display:block;font:bold 12px/20px Helvetica;color:#333;text-decoration:none;text-align:center;}.yacp-custom:hover{text-decoration:underline}.yacp-minicolors{padding:10px 14px;}.yacp-minicolors .yacp-confirm{display:block;font:bold 12px/20px Helvetica;color:#333;text-decoration:none;text-align:center;}.yacp-minicolors .yacp-confirm:hover{text-decoration:underline}

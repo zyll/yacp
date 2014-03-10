@@ -22,7 +22,11 @@
       <header>
         <h2>Select your favorite color</h2>
       </header>
-      <p id="color"></p>
+      <p id="color">
+        <span class='color'></span>
+        <input placeholder='Color...'/>
+      </p>
+
       <p id="myColor" class='color'></p>
     </article>
   </main>
@@ -36,7 +40,12 @@
   <script type="text/javascript" charset="utf-8">
     var users = [];
     var $el = $('#color');
-    var color = new Backbone.Yacp.Input({el: $el, users: users});
+    var color = new Backbone.Yacp.Input({
+      el: $el,
+      users: users,
+      input: $el.find('input'),
+      color: $el.find('.color')
+    });
     color.render();
     color.on('select', function(color) {
       $('#myColor').css('background-color', color).text(color);

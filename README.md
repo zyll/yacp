@@ -12,6 +12,29 @@ yacp deps :
   jquery, backbone and colorpicker (yep we use one, yacp purpose isnt to
   invent the wheel)
 
+### Exemple
+
+``` html
+  <p id="color">
+    <span class='color'></span>
+    <input placeholder='Color...'/>
+  </p>
+```
+```javascript
+  var users = [];
+  var $el = $('#color');
+  var color = new Backbone.Yacp.Input({
+    el: $el,
+    users: users,
+    input: $el.find('input'),
+    color: $el.find('.color')
+  });
+  color.render();
+  color.on('select', function(color) {
+    $('#myColor').css('background-color', color).text(color);
+  });
+```
+
 ## Developers
 
 ### Dependencies
@@ -25,7 +48,7 @@ Run `npm install && npm test`
 
 ### Testing
 
-Run `grunt` to execute the specs.
+Run `grunt` to transpile and execute the specs.
 
 You can watch for file modfication with `grunt watch`.
 

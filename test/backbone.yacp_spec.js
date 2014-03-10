@@ -1,4 +1,6 @@
 (function() {
+  var tplInput;
+
   describe('ArrayColors', function() {
     beforeEach(function() {
       return this.colors = new Backbone.Yacp.ColorsArray;
@@ -51,11 +53,20 @@
     });
   });
 
+  tplInput = function() {
+    return "<p id=\"color\">\n  <span class='color'></span>\n  <input placeholder='Color...'/>\n</p>";
+  };
+
   describe('Yacp input', function() {
     beforeEach(function() {
+      var $el;
+      $el = $(tplInput());
       this.users = [];
       return this.yacp = new Backbone.Yacp.Input({
-        users: this.users
+        el: $el,
+        users: this.users,
+        input: $el.find('input'),
+        color: $el.find('color')
       });
     });
     afterEach(function() {

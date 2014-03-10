@@ -42,10 +42,23 @@ describe 'Yacp', ->
     expect(spy).to.have.been.calledOnce
     expect(spy).to.have.been.calledWith '#722929'
 
+tplInput = ->
+  """
+  <p id="color">
+    <span class='color'></span>
+    <input placeholder='Color...'/>
+  </p>
+  """
+
 describe 'Yacp input', ->
   beforeEach ->
+    $el = $ tplInput()
     @users = []
-    @yacp = new Backbone.Yacp.Input users: @users
+    @yacp = new Backbone.Yacp.Input
+      el: $el
+      users: @users
+      input: $el.find 'input'
+      color: $el.find 'color'
   afterEach ->
     @yacp.remove()
 

@@ -97,6 +97,8 @@ class Backbone.Yacp.Minicolors extends Backbone.View
 # @params [options] {object}
 # @params [options.el] {domElement}
 # @params [options.users] {array} customs colors arrays, default to empty
+# @params [options.input] {DomElement} input form field witch handle the colors
+# @params [options.colors] {DomElement} feedback domelement with real color
 class Backbone.Yacp.Input extends Backbone.View
   className: 'yacp-colorSelector'
 
@@ -104,13 +106,13 @@ class Backbone.Yacp.Input extends Backbone.View
     'click input': 'onClick'
 
   initialize: (options)->
-    @$el.addClass @className
+    @$el.toggleClass @className, on
     @users = options.users || []
+    @$color = $ options.color
+    @$input = $ options.input
     @yacp = null
 
   render: ->
-    @$color = $ "<span class='color'></span>"
-    @$input = $ "<input placeholder='Color...'/>"
     @$el.append @$color, @$input
     @
 
@@ -130,5 +132,6 @@ class Backbone.Yacp.Input extends Backbone.View
         @trigger 'select', color
 
   remove: ->
+    @$el.toggleClass @className, off
     @yacp?.remove()
     super

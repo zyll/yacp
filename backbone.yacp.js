@@ -182,14 +182,14 @@
     };
 
     Input.prototype.initialize = function(options) {
-      this.$el.addClass(this.className);
+      this.$el.toggleClass(this.className, true);
       this.users = options.users || [];
+      this.$color = $(options.color);
+      this.$input = $(options.input);
       return this.yacp = null;
     };
 
     Input.prototype.render = function() {
-      this.$color = $("<span class='color'></span>");
-      this.$input = $("<input placeholder='Color...'/>");
       this.$el.append(this.$color, this.$input);
       return this;
     };
@@ -217,6 +217,7 @@
 
     Input.prototype.remove = function() {
       var _ref4;
+      this.$el.toggleClass(this.className, false);
       if ((_ref4 = this.yacp) != null) {
         _ref4.remove();
       }
