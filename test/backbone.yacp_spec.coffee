@@ -58,7 +58,7 @@ describe 'Yacp input', ->
       el: @$el
       users: @users
       input: @$el.find 'input'
-      color: @$el.find 'i.color'
+      color: @$el.find '.color'
   afterEach ->
     @yacp.remove()
 

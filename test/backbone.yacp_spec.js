@@ -65,7 +65,7 @@
         el: this.$el,
         users: this.users,
         input: this.$el.find('input'),
-        color: this.$el.find('i.color')
+        color: this.$el.find('.color')
       });
     });
     afterEach(function() {
