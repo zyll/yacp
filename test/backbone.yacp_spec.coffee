@@ -52,13 +52,13 @@ tplInput = ->
 
 describe 'Yacp input', ->
   beforeEach ->
-    $el = $ tplInput()
+    @$el = $ tplInput()
     @users = []
     @yacp = new Backbone.Yacp.Input
-      el: $el
+      el: @$el
       users: @users
-      input: $el.find 'input'
-      color: $el.find 'i.color'
+      input: @$el.find 'input'
+      color: @$el.find 'i.color'
   afterEach ->
     @yacp.remove()
 
@@ -72,12 +72,17 @@ describe 'Yacp input', ->
     describe 'when clicking on first color ', ->
       beforeEach ->
         @spy = sinon.spy()
+        @spyInput = sinon.spy()
+        @$el.find('input').on 'change', @spyInput
         @yacp.listenTo @yacp, 'select', @spy
         @yacp.render().$('a').first().click()
 
       it 'notify with first color', ->
         expect(@spy).to.have.been.calledOnce
         expect(@spy).to.have.been.calledWith '#722929'
+
+      it 'input element emit a change event', ->
+        expect(@spyInput).to.have.been.calledOnce
 
 describe 'Yacp input with a default color', ->
   beforeEach ->

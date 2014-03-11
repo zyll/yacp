@@ -59,14 +59,13 @@
 
   describe('Yacp input', function() {
     beforeEach(function() {
-      var $el;
-      $el = $(tplInput());
+      this.$el = $(tplInput());
       this.users = [];
       return this.yacp = new Backbone.Yacp.Input({
-        el: $el,
+        el: this.$el,
         users: this.users,
-        input: $el.find('input'),
-        color: $el.find('i.color')
+        input: this.$el.find('input'),
+        color: this.$el.find('i.color')
       });
     });
     afterEach(function() {
@@ -82,12 +81,17 @@
       return describe('when clicking on first color ', function() {
         beforeEach(function() {
           this.spy = sinon.spy();
+          this.spyInput = sinon.spy();
+          this.$el.find('input').on('change', this.spyInput);
           this.yacp.listenTo(this.yacp, 'select', this.spy);
           return this.yacp.render().$('a').first().click();
         });
-        return it('notify with first color', function() {
+        it('notify with first color', function() {
           expect(this.spy).to.have.been.calledOnce;
           return expect(this.spy).to.have.been.calledWith('#722929');
+        });
+        return it('input element emit a change event', function() {
+          return expect(this.spyInput).to.have.been.calledOnce;
         });
       });
     });
