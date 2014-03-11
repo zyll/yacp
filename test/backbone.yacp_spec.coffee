@@ -58,7 +58,7 @@ describe 'Yacp input', ->
       el: $el
       users: @users
       input: $el.find 'input'
-      color: $el.find 'color'
+      color: $el.find 'i.color'
   afterEach ->
     @yacp.remove()
 
@@ -78,3 +78,19 @@ describe 'Yacp input', ->
       it 'notify with first color', ->
         expect(@spy).to.have.been.calledOnce
         expect(@spy).to.have.been.calledWith '#722929'
+
+describe 'Yacp input with a default color', ->
+  beforeEach ->
+    @$el = $ tplInput()
+    @$el.find('input').val '#333333'
+    @users = []
+    @yacp = new Backbone.Yacp.Input
+      el: @$el
+      users: @users
+      input: @$el.find 'input'
+      color: @$el.find '.color'
+  afterEach ->
+    @yacp.remove()
+
+  it 'sync color visual feedback', ->
+    expect(@$el.find('.color').css 'background-color').to.eql "rgb(51, 51, 51)"

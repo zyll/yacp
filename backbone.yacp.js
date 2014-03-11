@@ -183,6 +183,7 @@
     };
 
     Input.prototype.initialize = function(options) {
+      var v;
       if (options == null) {
         options = {};
       }
@@ -190,15 +191,12 @@
       this.users = options.users || [];
       this.$color = $(options.color);
       this.$input = $(options.input);
+      v = this.$input.val();
+      this.background(this.$color, v);
       this.minicolors = options.minicolors || {
         online: true
       };
       return this.yacp = null;
-    };
-
-    Input.prototype.render = function() {
-      this.$el.append(this.$color, this.$input);
-      return this;
     };
 
     Input.prototype.onClick = function(event) {
@@ -215,12 +213,17 @@
         this.$input.after(this.yacp.render().el);
         return this.yacp.listenTo(this.yacp, 'select', function(color) {
           _this.$input.val(color);
-          _this.$color.css('background-color', color);
+          _this.background(_this.$color, color);
           _this.yacp.remove();
           _this.yacp = null;
           return _this.trigger('select', color);
         });
       }
+    };
+
+    Input.prototype.background = function($el, color) {
+      console.log($el, color);
+      return $el.css('background-color', color);
     };
 
     Input.prototype.remove = function() {

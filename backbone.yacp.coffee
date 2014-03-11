@@ -113,12 +113,10 @@ class Backbone.Yacp.Input extends Backbone.View
     @users = options.users || []
     @$color = $ options.color
     @$input = $ options.input
+    v = @$input.val()
+    @background(@$color, v) #unless _(v).isEmpty()
     @minicolors = options.minicolors || online: on
     @yacp = null
-
-  render: ->
-    @$el.append @$color, @$input
-    @
 
   onClick: (event)->
     event.preventDefault()
@@ -132,10 +130,14 @@ class Backbone.Yacp.Input extends Backbone.View
       @$input.after @yacp.render().el
       @yacp.listenTo @yacp, 'select', (color)=>
         @$input.val color
-        @$color.css 'background-color', color
+        @background @$color, color
         @yacp.remove()
         @yacp = null
         @trigger 'select', color
+
+  background: ($el, color)->
+    console.log $el, color
+    $el.css 'background-color', color
 
   remove: ->
     @$el.toggleClass @className, off

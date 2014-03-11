@@ -66,7 +66,7 @@
         el: $el,
         users: this.users,
         input: $el.find('input'),
-        color: $el.find('color')
+        color: $el.find('i.color')
       });
     });
     afterEach(function() {
@@ -90,6 +90,26 @@
           return expect(this.spy).to.have.been.calledWith('#722929');
         });
       });
+    });
+  });
+
+  describe('Yacp input with a default color', function() {
+    beforeEach(function() {
+      this.$el = $(tplInput());
+      this.$el.find('input').val('#333333');
+      this.users = [];
+      return this.yacp = new Backbone.Yacp.Input({
+        el: this.$el,
+        users: this.users,
+        input: this.$el.find('input'),
+        color: this.$el.find('.color')
+      });
+    });
+    afterEach(function() {
+      return this.yacp.remove();
+    });
+    return it('sync color visual feedback', function() {
+      return expect(this.$el.find('.color').css('background-color')).to.eql("rgb(51, 51, 51)");
     });
   });
 
