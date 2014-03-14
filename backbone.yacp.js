@@ -54,7 +54,7 @@
       var _this = this;
       event.preventDefault();
       this.viewPalette.remove();
-      this.$custom.remove();
+      this.$custom.hide();
       this.userPalette.remove();
       this.minicolors = new Backbone.Yacp.Minicolors;
       this.$el.append(this.minicolors.render().el);

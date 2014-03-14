@@ -33,7 +33,7 @@ class Backbone.Yacp extends Backbone.View
   onCustom: (event)->
     event.preventDefault()
     @viewPalette.remove()
-    @$custom.remove()
+    @$custom.hide()
     @userPalette.remove()
     @minicolors = new Backbone.Yacp.Minicolors
     @$el.append @minicolors.render().el
