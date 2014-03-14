@@ -66,8 +66,12 @@ describe 'Yacp input', ->
     beforeEach ->
       @yacp.render().$('input').click()
 
-    it 'display 2 colors list ', ->
+    it 'display 2 colors list', ->
       expect(@yacp.$ 'ul').to.have.length 2
+
+    it 'can be hidden', ->
+      @yacp.hide()
+      expect(@yacp.$ 'ul').not.to.have.length 2
 
     describe 'when clicking on first color ', ->
       beforeEach ->

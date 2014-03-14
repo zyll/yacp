@@ -119,20 +119,23 @@ class Backbone.Yacp.Input extends Backbone.View
 
   onClick: (event)->
     event.preventDefault()
-    if @yacp
+    if @yacp? then @hide() else @show()
+
+  show: ->
+    @yacp = new Backbone.Yacp
+      users: @users
+      minicolors: @minicolors
+    @$input.after @yacp.render().el
+    @yacp.listenTo @yacp, 'select', (color)=>
+      @$input.attr(value: color).change()
+      @background @$color, color
       @yacp.remove()
       @yacp = null
-    else
-      @yacp = new Backbone.Yacp
-        users: @users
-        minicolors: @minicolors
-      @$input.after @yacp.render().el
-      @yacp.listenTo @yacp, 'select', (color)=>
-        @$input.attr(value: color).change()
-        @background @$color, color
-        @yacp.remove()
-        @yacp = null
-        @trigger 'select', color
+      @trigger 'select', color
+
+  hide: ->
+    @yacp?.remove()
+    @yacp = null
 
   background: ($el, color)->
     $el.css 'background-color', color

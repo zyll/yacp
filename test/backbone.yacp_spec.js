@@ -75,8 +75,12 @@
       beforeEach(function() {
         return this.yacp.render().$('input').click();
       });
-      it('display 2 colors list ', function() {
+      it('display 2 colors list', function() {
         return expect(this.yacp.$('ul')).to.have.length(2);
+      });
+      it('can be hidden', function() {
+        this.yacp.hide();
+        return expect(this.yacp.$('ul')).not.to.have.length(2);
       });
       return describe('when clicking on first color ', function() {
         beforeEach(function() {

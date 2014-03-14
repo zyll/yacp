@@ -201,27 +201,38 @@
     };
 
     Input.prototype.onClick = function(event) {
-      var _this = this;
       event.preventDefault();
-      if (this.yacp) {
-        this.yacp.remove();
-        return this.yacp = null;
+      if (this.yacp != null) {
+        return this.hide();
       } else {
-        this.yacp = new Backbone.Yacp({
-          users: this.users,
-          minicolors: this.minicolors
-        });
-        this.$input.after(this.yacp.render().el);
-        return this.yacp.listenTo(this.yacp, 'select', function(color) {
-          _this.$input.attr({
-            value: color
-          }).change();
-          _this.background(_this.$color, color);
-          _this.yacp.remove();
-          _this.yacp = null;
-          return _this.trigger('select', color);
-        });
+        return this.show();
       }
+    };
+
+    Input.prototype.show = function() {
+      var _this = this;
+      this.yacp = new Backbone.Yacp({
+        users: this.users,
+        minicolors: this.minicolors
+      });
+      this.$input.after(this.yacp.render().el);
+      return this.yacp.listenTo(this.yacp, 'select', function(color) {
+        _this.$input.attr({
+          value: color
+        }).change();
+        _this.background(_this.$color, color);
+        _this.yacp.remove();
+        _this.yacp = null;
+        return _this.trigger('select', color);
+      });
+    };
+
+    Input.prototype.hide = function() {
+      var _ref4;
+      if ((_ref4 = this.yacp) != null) {
+        _ref4.remove();
+      }
+      return this.yacp = null;
     };
 
     Input.prototype.background = function($el, color) {
