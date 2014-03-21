@@ -5,7 +5,7 @@
   "homepage": "https://github.com/zyll/yacp",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jquery/jquery.git"
+    "url": "https://github.com/zyll/yacp.git"
   },
   "main": "backbone.yacp.js",
   "directories": {
