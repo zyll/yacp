@@ -179,25 +179,31 @@
     Input.prototype.className = 'yacp-colorSelector';
 
     Input.prototype.events = {
-      'click input': 'onClick'
+      'click .yacp-controls': 'onClick'
     };
 
     Input.prototype.initialize = function(options) {
-      var v;
       if (options == null) {
         options = {};
       }
-      this.$el.toggleClass(this.className, true);
       this.users = options.users || [];
       this.$color = $(options.color);
       this.$input = $(options.input);
-      if (!_(v = this.$input.val()).isEmpty()) {
-        this.background(this.$color, v);
-      }
+      this.$color.addClass('yacp-controls');
+      this.$input.addClass('yacp-controls');
       this.minicolors = options.minicolors || {
         online: true
       };
       return this.yacp = null;
+    };
+
+    Input.prototype.render = function() {
+      var v;
+      this.$el.toggleClass(this.className, true);
+      if (!_(v = this.$input.val()).isEmpty()) {
+        this.background(this.$color, v);
+      }
+      return this;
     };
 
     Input.prototype.onClick = function(event) {
@@ -242,6 +248,7 @@
     Input.prototype.remove = function() {
       var _ref4;
       this.$el.toggleClass(this.className, false);
+      this.$('.yacp-controls').removeClass('yacp-controls');
       if ((_ref4 = this.yacp) != null) {
         _ref4.remove();
       }

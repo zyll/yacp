@@ -106,16 +106,21 @@ class Backbone.Yacp.Input extends Backbone.View
   className: 'yacp-colorSelector'
 
   events:
-    'click input': 'onClick'
+    'click .yacp-controls': 'onClick'
 
   initialize: (options={})->
-    @$el.toggleClass @className, on
     @users = options.users || []
     @$color = $ options.color
     @$input = $ options.input
-    @background @$color, v unless _(v = @$input.val()).isEmpty()
+    @$color.addClass 'yacp-controls'
+    @$input.addClass 'yacp-controls'
     @minicolors = options.minicolors || online: on
     @yacp = null
+
+  render: ->
+    @$el.toggleClass @className, on
+    @background @$color, v unless _(v = @$input.val()).isEmpty()
+    @
 
   onClick: (event)->
     event.preventDefault()
@@ -142,5 +147,6 @@ class Backbone.Yacp.Input extends Backbone.View
 
   remove: ->
     @$el.toggleClass @className, off
+    @$('.yacp-controls').removeClass 'yacp-controls'
     @yacp?.remove()
     super

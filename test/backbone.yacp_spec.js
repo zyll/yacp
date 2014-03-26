@@ -71,7 +71,7 @@
     afterEach(function() {
       return this.yacp.remove();
     });
-    return describe('when clicking on input', function() {
+    describe('when clicking on input', function() {
       beforeEach(function() {
         return this.yacp.render().$('input').click();
       });
@@ -99,6 +99,14 @@
         });
       });
     });
+    return describe('when clicking on color', function() {
+      beforeEach(function() {
+        return this.yacp.render().$('.color').click();
+      });
+      return it('display 2 colors list', function() {
+        return expect(this.yacp.$('ul')).to.have.length(2);
+      });
+    });
   });
 
   describe('Yacp input with a default color', function() {
@@ -106,17 +114,19 @@
       this.$el = $(tplInput());
       this.$el.find('input').val('#333333');
       this.users = [];
-      return this.yacp = new Backbone.Yacp.Input({
+      this.yacp = new Backbone.Yacp.Input({
         el: this.$el,
         users: this.users,
         input: this.$el.find('input'),
         color: this.$el.find('.color')
       });
+      return this.yacp.render();
     });
     afterEach(function() {
       return this.yacp.remove();
     });
     return it('sync color visual feedback', function() {
+      console.log(this.$el.find('.color'));
       return expect(this.$el.find('.color').css('background-color')).to.eql("rgb(51, 51, 51)");
     });
   });

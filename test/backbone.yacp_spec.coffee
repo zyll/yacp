@@ -88,6 +88,13 @@ describe 'Yacp input', ->
       it 'input element emit a change event', ->
         expect(@spyInput).to.have.been.calledOnce
 
+  describe 'when clicking on color', ->
+    beforeEach ->
+      @yacp.render().$('.color').click()
+
+    it 'display 2 colors list', ->
+      expect(@yacp.$ 'ul').to.have.length 2
+
 describe 'Yacp input with a default color', ->
   beforeEach ->
     @$el = $ tplInput()
@@ -98,8 +105,10 @@ describe 'Yacp input with a default color', ->
       users: @users
       input: @$el.find 'input'
       color: @$el.find '.color'
+    @yacp.render()
   afterEach ->
     @yacp.remove()
 
   it 'sync color visual feedback', ->
+    console.log @$el.find('.color')
     expect(@$el.find('.color').css 'background-color').to.eql "rgb(51, 51, 51)"
