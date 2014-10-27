@@ -106,7 +106,8 @@ class Backbone.Yacp.Input extends Backbone.View
   className: 'yacp-colorSelector'
 
   events:
-    'click .yacp-controls': 'onClick'
+    'click .yacp-controls':     'onClick'
+    'keyup .yacp-controls':     'onKeyEnter'
 
   initialize: (options={})->
     @users = options.users || []
@@ -126,6 +127,11 @@ class Backbone.Yacp.Input extends Backbone.View
     event.preventDefault()
     if @yacp? then @hide() else @show()
 
+  onKeyEnter: (event)->
+    return unless event.keyCode is 13
+    @background @$color, @$input.val()
+    @trigger 'select', @$input.val()
+
   show: ->
     @yacp = new Backbone.Yacp
       users: @users
@@ -133,6 +139,7 @@ class Backbone.Yacp.Input extends Backbone.View
     @$input.after @yacp.render().el
     @yacp.listenTo @yacp, 'select', (color)=>
       @$input.attr(value: color).change()
+      @$input.val color
       @background @$color, color
       @yacp.remove()
       @yacp = null

@@ -179,7 +179,8 @@
     Input.prototype.className = 'yacp-colorSelector';
 
     Input.prototype.events = {
-      'click .yacp-controls': 'onClick'
+      'click .yacp-controls': 'onClick',
+      'keyup .yacp-controls': 'onKeyEnter'
     };
 
     Input.prototype.initialize = function(options) {
@@ -215,6 +216,14 @@
       }
     };
 
+    Input.prototype.onKeyEnter = function(event) {
+      if (event.keyCode !== 13) {
+        return;
+      }
+      this.background(this.$color, this.$input.val());
+      return this.trigger('select', this.$input.val());
+    };
+
     Input.prototype.show = function() {
       var _this = this;
       this.yacp = new Backbone.Yacp({
@@ -226,6 +235,7 @@
         _this.$input.attr({
           value: color
         }).change();
+        _this.$input.val(color);
         _this.background(_this.$color, color);
         _this.yacp.remove();
         _this.yacp = null;

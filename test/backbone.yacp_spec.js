@@ -99,12 +99,25 @@
         });
       });
     });
-    return describe('when clicking on color', function() {
+    describe('when clicking on color', function() {
       beforeEach(function() {
         return this.yacp.render().$('.color').click();
       });
       return it('display 2 colors list', function() {
         return expect(this.yacp.$('ul')).to.have.length(2);
+      });
+    });
+    return describe('when change color in input', function() {
+      beforeEach(function() {
+        var event;
+        this.yacp.render().$('.color').click();
+        event = $.Event('keyup');
+        event.which = 13;
+        event.keyCode = 13;
+        return this.$el.find('input').val('#ff0000').trigger(event);
+      });
+      return it('display color in preview', function() {
+        return expect(this.$el.find('.color').css('background-color')).to.eql("rgb(255, 0, 0)");
       });
     });
   });
@@ -126,7 +139,6 @@
       return this.yacp.remove();
     });
     return it('sync color visual feedback', function() {
-      console.log(this.$el.find('.color'));
       return expect(this.$el.find('.color').css('background-color')).to.eql("rgb(51, 51, 51)");
     });
   });

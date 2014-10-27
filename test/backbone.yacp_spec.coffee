@@ -95,6 +95,21 @@ describe 'Yacp input', ->
     it 'display 2 colors list', ->
       expect(@yacp.$ 'ul').to.have.length 2
 
+  describe 'when change color in input', ->
+    beforeEach ->
+      @yacp.render().$('.color').click()
+      event = $.Event 'keyup'
+      event.which = 13
+      event.keyCode = 13
+      @$el.find('input').val('#ff0000')
+        .trigger(event)
+
+    it 'display color in preview', ->
+      expect(@$el.find('.color').css 'background-color').to.eql "rgb(255, 0, 0)"
+
+
+
+
 describe 'Yacp input with a default color', ->
   beforeEach ->
     @$el = $ tplInput()
@@ -110,5 +125,4 @@ describe 'Yacp input with a default color', ->
     @yacp.remove()
 
   it 'sync color visual feedback', ->
-    console.log @$el.find('.color')
     expect(@$el.find('.color').css 'background-color').to.eql "rgb(51, 51, 51)"
