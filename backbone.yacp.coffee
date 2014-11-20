@@ -107,7 +107,7 @@ class Backbone.Yacp.Input extends Backbone.View
 
   events:
     'click .yacp-controls':     'onClick'
-    'keyup .yacp-controls':     'onKeyEnter'
+    'keyup .yacp-controls':     'onKeyUp'
 
   initialize: (options={})->
     @users = options.users || []
@@ -127,8 +127,8 @@ class Backbone.Yacp.Input extends Backbone.View
     event.preventDefault()
     if @yacp? then @hide() else @show()
 
-  onKeyEnter: (event)->
-    return unless event.keyCode is 13
+  onKeyUp: (event)->
+    return if @$input.val().length < 4
     @background @$color, @$input.val()
     @trigger 'select', @$input.val()
 

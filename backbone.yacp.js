@@ -180,7 +180,7 @@
 
     Input.prototype.events = {
       'click .yacp-controls': 'onClick',
-      'keyup .yacp-controls': 'onKeyEnter'
+      'keyup .yacp-controls': 'onKeyUp'
     };
 
     Input.prototype.initialize = function(options) {
@@ -216,8 +216,8 @@
       }
     };
 
-    Input.prototype.onKeyEnter = function(event) {
-      if (event.keyCode !== 13) {
+    Input.prototype.onKeyUp = function(event) {
+      if (this.$input.val().length < 4) {
         return;
       }
       this.background(this.$color, this.$input.val());
