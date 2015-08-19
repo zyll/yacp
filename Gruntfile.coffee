@@ -37,6 +37,8 @@ module.exports = (grunt)->
       assets:
         files:
           'backbone.yacp.css': ['backbone.yacp.styl']
+        options:
+          'include css': true
     mocha:
       options:
         run: true
