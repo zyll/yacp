@@ -5,12 +5,11 @@ Backbone Yacp [![Build Status](https://travis-ci.org/zyll/yacp.png)](https://tra
 
 Your not from the past :
 
-  bower install zyll/yacp
+  npm install zyll/yacp
 
 yacp deps :
 
-  jquery, backbone and colorpicker (yep we use one, yacp purpose isnt to
-  invent the wheel)
+  jquery, backbone and underscore should be resolved via require
 
 ### Exemple
 
@@ -21,9 +20,10 @@ yacp deps :
   </p>
 ```
 ```javascript
+  require('backbone.yacp')
   var users = [];
   var $el = $('#color');
-  var color = new Backbone.Yacp.Input({
+  var color = new Yacp.Input({
     el: $el,
     users: users,
     input: $el.find('input'),
