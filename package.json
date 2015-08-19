@@ -12,7 +12,8 @@
     "test": "test"
   },
   "scripts": {
-    "install": "node -e \"require('grunt').tasks(['default'])\";"
+    "build": "node -e \"require('grunt').tasks(['browserify', 'stylus'])\";",
+    "test": "node -e \"require('grunt').tasks(['jshint', 'mocha'])\";"
   },
   "keywords": [
     "backbone",
