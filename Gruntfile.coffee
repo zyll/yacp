@@ -1,12 +1,11 @@
 module.exports = (grunt)->
 
   grunt.loadNpmTasks 'grunt-contrib-watch'
-  grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-jshint'
   grunt.loadNpmTasks 'grunt-contrib-stylus'
   grunt.loadNpmTasks 'grunt-coffeelint'
   grunt.loadNpmTasks 'grunt-mocha'
-  grunt.loadNpmTasks 'grunt-bower-task'
+  grunt.loadNpmTasks 'grunt-browserify'
 
   grunt.initConfig
     coffeelint:
@@ -20,13 +19,20 @@ module.exports = (grunt)->
             level: 'warn'
     jshint:
       manifest: ['*.json']
-    coffee:
+    browserify:
       assets:
-        files:
-          'backbone.yacp.js': ['backbone.yacp.coffee']
+        src: ['./backbone.yacp.coffee']
+        dest: 'backbone.yacp.js'
+        options:
+          browserifyOptions:
+            standalone: 'backbone.yacp'
+          external: ['jquery', 'backbone', 'underscore']
+          transform: ['coffeeify']
       test:
-        files:
-          'test/backbone.yacp_spec.js': ['test/backbone.yacp_spec.coffee']
+        src: ['test/backbone.yacp_spec.coffee']
+        dest: 'test/backbone.yacp_spec.js'
+        options:
+          transform: ['coffeeify']
     stylus:
       assets:
         files:
@@ -39,10 +45,6 @@ module.exports = (grunt)->
         src: ['test/test.html']
     watch:
       files: ['*.coffee', 'test/**/*.coffee', '*.styl']
-      tasks: ['coffeelint', 'coffee', 'stylus', 'mocha']
-    bower:
-      install:
-        targetDir: 'bower_components'
-        copy: no
+      tasks: ['coffeelint', 'browserify', 'stylus', 'mocha']
 
-  grunt.registerTask 'default', ['bower', 'jshint', 'coffeelint', 'coffee', 'stylus', 'mocha']
+  grunt.registerTask 'default', ['jshint', 'coffeelint', 'browserify', 'stylus', 'mocha']

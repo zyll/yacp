@@ -1,11 +1,16 @@
+$ = require 'jquery'
+_ = require 'underscore'
+Backbone = require 'backbone'
+Yacp = require 'backbone.yacp'
+
 describe 'ArrayColors', ->
   beforeEach ->
-    @colors = new Backbone.Yacp.ColorsArray
+    @colors = new Yacp.ColorsArray
   afterEach ->
     @colors.remove()
 
   it 'use default colors array', ->
-    expect(@colors.colors).to.equal Backbone.Yacp::defaultColors
+    expect(@colors.colors).to.equal Yacp::defaultColors
 
   it 'render all colors', ->
     expect(@colors.render().$('li')).to.have.length @colors.colors.length
@@ -19,7 +24,7 @@ describe 'ArrayColors', ->
 
 describe 'Yacp', ->
   beforeEach ->
-    @yacp = new Backbone.Yacp
+    @yacp = new Yacp
   afterEach ->
     @yacp.remove()
 
@@ -29,7 +34,7 @@ describe 'Yacp', ->
 
   it 'first list is default palette', ->
     @yacp.render()
-    expect(@yacp.$('ul').first().find('a')).to.have.length Backbone.Yacp::defaultColors.length
+    expect(@yacp.$('ul').first().find('a')).to.have.length Yacp::defaultColors.length
 
   it 'last list is an empty palette', ->
     @yacp.render()
@@ -54,7 +59,7 @@ describe 'Yacp input', ->
   beforeEach ->
     @$el = $ tplInput()
     @users = []
-    @yacp = new Backbone.Yacp.Input
+    @yacp = new Yacp.Input
       el: @$el
       users: @users
       input: @$el.find 'input'
@@ -115,7 +120,7 @@ describe 'Yacp input with a default color', ->
     @$el = $ tplInput()
     @$el.find('input').val '#333333'
     @users = []
-    @yacp = new Backbone.Yacp.Input
+    @yacp = new Yacp.Input
       el: @$el
       users: @users
       input: @$el.find 'input'

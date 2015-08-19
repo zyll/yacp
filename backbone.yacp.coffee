@@ -1,4 +1,9 @@
-class Backbone.Yacp extends Backbone.View
+$ = require 'jquery'
+_ = require 'underscore'
+Backbone = require 'backbone'
+require "jquery-minicolors"
+
+class Yacp extends Backbone.View
   defaultColors: [
     "#722929", "#7f7f26", "#497e25", "#487d7c", "#16166d", "#701f7f", "#7a7a7a", "#898989",
     "#73481a", "#5c7e24", "#477c4a", "#2b477b", "#3e1b71", "#712b56", "#da3535", "#f4f43d",
@@ -17,8 +22,8 @@ class Backbone.Yacp extends Backbone.View
 
   initialize: (options={})->
     @userColors = options.users || []
-    @viewPalette = new Backbone.Yacp.ColorsArray
-    @userPalette = new Backbone.Yacp.ColorsArray colors: @userColors
+    @viewPalette = new Yacp.ColorsArray
+    @userPalette = new Yacp.ColorsArray colors: @userColors
 
   render: ->
     @$custom = $ """<a href="#" class="yacp-custom">#{@words.custom}</a>"""
@@ -35,7 +40,7 @@ class Backbone.Yacp extends Backbone.View
     @viewPalette.remove()
     @$custom.hide()
     @userPalette.remove()
-    @minicolors = new Backbone.Yacp.Minicolors
+    @minicolors = new Yacp.Minicolors
     @$el.append @minicolors.render().el
     @listenTo @minicolors, 'select', (color)=>
       @userColors.push color
@@ -52,14 +57,14 @@ class Backbone.Yacp extends Backbone.View
 # @params [options] {object}
 # @params [options.colors] {array} colors arrays, default to libs one
 # @params [options.minicolors] {object} see https://github.com/claviska/jquery-minicolors
-class Backbone.Yacp.ColorsArray extends Backbone.View
+class Yacp.ColorsArray extends Backbone.View
   tagName: 'ul'
 
   events:
     'click a.yacp-color': 'onSelect'
 
   initialize: (options={})->
-    @colors = options.colors || Backbone.Yacp::defaultColors
+    @colors = options.colors || Yacp::defaultColors
     @minicolors = options.minicolors || inline: on
 
   render: ->
@@ -73,7 +78,7 @@ class Backbone.Yacp.ColorsArray extends Backbone.View
     event.preventDefault()
     @trigger 'select', $(event.currentTarget).data 'color'
 
-class Backbone.Yacp.Minicolors extends Backbone.View
+class Yacp.Minicolors extends Backbone.View
 
   tagName: 'article'
   className: 'yacp-minicolors'
@@ -102,7 +107,7 @@ class Backbone.Yacp.Minicolors extends Backbone.View
 # @params [options.input] {DomElement} input form field witch handle the colors
 # @params [options.color] {DomElement} feedback domelement with real color
 # @params [options.minicolors] {object} see https://github.com/claviska/jquery-minicolors
-class Backbone.Yacp.Input extends Backbone.View
+class Yacp.Input extends Backbone.View
   className: 'yacp-colorSelector'
 
   events:
@@ -133,7 +138,7 @@ class Backbone.Yacp.Input extends Backbone.View
     @trigger 'select', @$input.val()
 
   show: ->
-    @yacp = new Backbone.Yacp
+    @yacp = new Yacp
       users: @users
       minicolors: @minicolors
     @$input.after @yacp.render().el
@@ -157,3 +162,5 @@ class Backbone.Yacp.Input extends Backbone.View
     @$('.yacp-controls').removeClass 'yacp-controls'
     @yacp?.remove()
     super
+
+module.exports = Yacp

@@ -1,237 +1,242 @@
-(function() {
-  var _ref, _ref1, _ref2, _ref3,
-    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
-    __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}(g.backbone || (g.backbone = {})).yacp = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var $, Backbone, Yacp, _,
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  hasProp = {}.hasOwnProperty;
 
-  Backbone.Yacp = (function(_super) {
-    __extends(Yacp, _super);
+$ = require('jquery');
 
-    function Yacp() {
-      this.select = __bind(this.select, this);
-      _ref = Yacp.__super__.constructor.apply(this, arguments);
-      return _ref;
+_ = require('underscore');
+
+Backbone = require('backbone');
+
+require("jquery-minicolors");
+
+Yacp = (function(superClass) {
+  extend(Yacp, superClass);
+
+  function Yacp() {
+    this.select = bind(this.select, this);
+    return Yacp.__super__.constructor.apply(this, arguments);
+  }
+
+  Yacp.prototype.defaultColors = ["#722929", "#7f7f26", "#497e25", "#487d7c", "#16166d", "#701f7f", "#7a7a7a", "#898989", "#73481a", "#5c7e24", "#477c4a", "#2b477b", "#3e1b71", "#712b56", "#da3535", "#f4f43d", "#8af33c", "#86ecec", "#ce16eb", "#b4f441", "#3a3a3a", "#a4f2f2", "#e58ad5", "#d4ff74", "#9fd1fd", "#f2ce79", "#b1b1fd", "#f5f5b2", "#b1b1b1", "#f2f2f2", "#fff", "#1919d0"];
+
+  Yacp.prototype.tagName = 'section';
+
+  Yacp.prototype.className = 'yacp-container';
+
+  Yacp.prototype.events = {
+    'click a.yacp-custom': 'onCustom'
+  };
+
+  Yacp.prototype.words = {
+    custom: 'custom...'
+  };
+
+  Yacp.prototype.initialize = function(options) {
+    if (options == null) {
+      options = {};
     }
+    this.userColors = options.users || [];
+    this.viewPalette = new Yacp.ColorsArray;
+    return this.userPalette = new Yacp.ColorsArray({
+      colors: this.userColors
+    });
+  };
 
-    Yacp.prototype.defaultColors = ["#722929", "#7f7f26", "#497e25", "#487d7c", "#16166d", "#701f7f", "#7a7a7a", "#898989", "#73481a", "#5c7e24", "#477c4a", "#2b477b", "#3e1b71", "#712b56", "#da3535", "#f4f43d", "#8af33c", "#86ecec", "#ce16eb", "#b4f441", "#3a3a3a", "#a4f2f2", "#e58ad5", "#d4ff74", "#9fd1fd", "#f2ce79", "#b1b1fd", "#f5f5b2", "#b1b1b1", "#f2f2f2", "#fff", "#1919d0"];
+  Yacp.prototype.render = function() {
+    this.$custom = $("<a href=\"#\" class=\"yacp-custom\">" + this.words.custom + "</a>");
+    this.$el.append(this.viewPalette.render().el, this.$custom, this.userPalette.render().el);
+    this.listenTo(this.viewPalette, 'select', this.select);
+    this.listenTo(this.userPalette, 'select', this.select);
+    return this;
+  };
 
-    Yacp.prototype.tagName = 'section';
+  Yacp.prototype.select = function(color) {
+    return this.trigger('select', color);
+  };
 
-    Yacp.prototype.className = 'yacp-container';
-
-    Yacp.prototype.events = {
-      'click a.yacp-custom': 'onCustom'
-    };
-
-    Yacp.prototype.words = {
-      custom: 'custom...'
-    };
-
-    Yacp.prototype.initialize = function(options) {
-      if (options == null) {
-        options = {};
-      }
-      this.userColors = options.users || [];
-      this.viewPalette = new Backbone.Yacp.ColorsArray;
-      return this.userPalette = new Backbone.Yacp.ColorsArray({
-        colors: this.userColors
-      });
-    };
-
-    Yacp.prototype.render = function() {
-      this.$custom = $("<a href=\"#\" class=\"yacp-custom\">" + this.words.custom + "</a>");
-      this.$el.append(this.viewPalette.render().el, this.$custom, this.userPalette.render().el);
-      this.listenTo(this.viewPalette, 'select', this.select);
-      this.listenTo(this.userPalette, 'select', this.select);
-      return this;
-    };
-
-    Yacp.prototype.select = function(color) {
-      return this.trigger('select', color);
-    };
-
-    Yacp.prototype.onCustom = function(event) {
-      var _this = this;
-      event.preventDefault();
-      this.viewPalette.remove();
-      this.$custom.hide();
-      this.userPalette.remove();
-      this.minicolors = new Backbone.Yacp.Minicolors;
-      this.$el.append(this.minicolors.render().el);
-      return this.listenTo(this.minicolors, 'select', function(color) {
+  Yacp.prototype.onCustom = function(event) {
+    event.preventDefault();
+    this.viewPalette.remove();
+    this.$custom.hide();
+    this.userPalette.remove();
+    this.minicolors = new Yacp.Minicolors;
+    this.$el.append(this.minicolors.render().el);
+    return this.listenTo(this.minicolors, 'select', (function(_this) {
+      return function(color) {
         _this.userColors.push(color);
         return _this.select(color);
-      });
-    };
-
-    Yacp.prototype.remove = function() {
-      var _ref1, _ref2, _ref3, _ref4;
-      if ((_ref1 = this.viewPalette) != null) {
-        _ref1.remove();
-      }
-      this.$custom.remove();
-      if ((_ref2 = this.$custom) != null) {
-        _ref2.remove();
-      }
-      if ((_ref3 = this.userPalette) != null) {
-        _ref3.remove();
-      }
-      if ((_ref4 = this.minicolors) != null) {
-        _ref4.remove();
-      }
-      return Yacp.__super__.remove.apply(this, arguments);
-    };
-
-    return Yacp;
-
-  })(Backbone.View);
-
-  Backbone.Yacp.ColorsArray = (function(_super) {
-    __extends(ColorsArray, _super);
-
-    function ColorsArray() {
-      _ref1 = ColorsArray.__super__.constructor.apply(this, arguments);
-      return _ref1;
-    }
-
-    ColorsArray.prototype.tagName = 'ul';
-
-    ColorsArray.prototype.events = {
-      'click a.yacp-color': 'onSelect'
-    };
-
-    ColorsArray.prototype.initialize = function(options) {
-      if (options == null) {
-        options = {};
-      }
-      this.colors = options.colors || Backbone.Yacp.prototype.defaultColors;
-      return this.minicolors = options.minicolors || {
-        inline: true
       };
-    };
+    })(this));
+  };
 
-    ColorsArray.prototype.render = function() {
-      var color, _i, _len, _ref2;
-      this.$content = $('<div/>');
-      _ref2 = this.colors;
-      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-        color = _ref2[_i];
-        this.$content.append($("<li><a href=\"#\" class=\"yacp-color\" style=\"background-color: " + color + ";\" data-color=" + color + "></a></li>"));
-      }
-      this.$el.html(this.$content.contents());
-      return this;
-    };
-
-    ColorsArray.prototype.onSelect = function(event) {
-      event.preventDefault();
-      return this.trigger('select', $(event.currentTarget).data('color'));
-    };
-
-    return ColorsArray;
-
-  })(Backbone.View);
-
-  Backbone.Yacp.Minicolors = (function(_super) {
-    __extends(Minicolors, _super);
-
-    function Minicolors() {
-      _ref2 = Minicolors.__super__.constructor.apply(this, arguments);
-      return _ref2;
+  Yacp.prototype.remove = function() {
+    var ref, ref1, ref2, ref3;
+    if ((ref = this.viewPalette) != null) {
+      ref.remove();
     }
-
-    Minicolors.prototype.tagName = 'article';
-
-    Minicolors.prototype.className = 'yacp-minicolors';
-
-    Minicolors.prototype.events = {
-      'click a.yacp-confirm': 'onConfirm'
-    };
-
-    Minicolors.prototype.words = {
-      confirm: 'Ok'
-    };
-
-    Minicolors.prototype.render = function() {
-      this.$confirm = $("<a href=\"#\" class=\"yacp-confirm\">" + this.words.confirm + "</a>");
-      this.$minicolors = $("<input class=\"minicolors\" type=\"hidden\">");
-      this.$el.append(this.$minicolors, this.$confirm);
-      this.$minicolors.minicolors('create', this.minicolors).minicolors('show');
-      return this;
-    };
-
-    Minicolors.prototype.onConfirm = function(event) {
-      event.preventDefault();
-      return this.trigger('select', this.$minicolors.val());
-    };
-
-    return Minicolors;
-
-  })(Backbone.View);
-
-  Backbone.Yacp.Input = (function(_super) {
-    __extends(Input, _super);
-
-    function Input() {
-      _ref3 = Input.__super__.constructor.apply(this, arguments);
-      return _ref3;
+    this.$custom.remove();
+    if ((ref1 = this.$custom) != null) {
+      ref1.remove();
     }
+    if ((ref2 = this.userPalette) != null) {
+      ref2.remove();
+    }
+    if ((ref3 = this.minicolors) != null) {
+      ref3.remove();
+    }
+    return Yacp.__super__.remove.apply(this, arguments);
+  };
 
-    Input.prototype.className = 'yacp-colorSelector';
+  return Yacp;
 
-    Input.prototype.events = {
-      'click .yacp-controls': 'onClick',
-      'keyup .yacp-controls': 'onKeyUp'
+})(Backbone.View);
+
+Yacp.ColorsArray = (function(superClass) {
+  extend(ColorsArray, superClass);
+
+  function ColorsArray() {
+    return ColorsArray.__super__.constructor.apply(this, arguments);
+  }
+
+  ColorsArray.prototype.tagName = 'ul';
+
+  ColorsArray.prototype.events = {
+    'click a.yacp-color': 'onSelect'
+  };
+
+  ColorsArray.prototype.initialize = function(options) {
+    if (options == null) {
+      options = {};
+    }
+    this.colors = options.colors || Yacp.prototype.defaultColors;
+    return this.minicolors = options.minicolors || {
+      inline: true
     };
+  };
 
-    Input.prototype.initialize = function(options) {
-      if (options == null) {
-        options = {};
-      }
-      this.users = options.users || [];
-      this.$color = $(options.color);
-      this.$input = $(options.input);
-      this.$color.addClass('yacp-controls');
-      this.$input.addClass('yacp-controls');
-      this.minicolors = options.minicolors || {
-        online: true
-      };
-      return this.yacp = null;
+  ColorsArray.prototype.render = function() {
+    var color, i, len, ref;
+    this.$content = $('<div/>');
+    ref = this.colors;
+    for (i = 0, len = ref.length; i < len; i++) {
+      color = ref[i];
+      this.$content.append($("<li><a href=\"#\" class=\"yacp-color\" style=\"background-color: " + color + ";\" data-color=" + color + "></a></li>"));
+    }
+    this.$el.html(this.$content.contents());
+    return this;
+  };
+
+  ColorsArray.prototype.onSelect = function(event) {
+    event.preventDefault();
+    return this.trigger('select', $(event.currentTarget).data('color'));
+  };
+
+  return ColorsArray;
+
+})(Backbone.View);
+
+Yacp.Minicolors = (function(superClass) {
+  extend(Minicolors, superClass);
+
+  function Minicolors() {
+    return Minicolors.__super__.constructor.apply(this, arguments);
+  }
+
+  Minicolors.prototype.tagName = 'article';
+
+  Minicolors.prototype.className = 'yacp-minicolors';
+
+  Minicolors.prototype.events = {
+    'click a.yacp-confirm': 'onConfirm'
+  };
+
+  Minicolors.prototype.words = {
+    confirm: 'Ok'
+  };
+
+  Minicolors.prototype.render = function() {
+    this.$confirm = $("<a href=\"#\" class=\"yacp-confirm\">" + this.words.confirm + "</a>");
+    this.$minicolors = $("<input class=\"minicolors\" type=\"hidden\">");
+    this.$el.append(this.$minicolors, this.$confirm);
+    this.$minicolors.minicolors('create', this.minicolors).minicolors('show');
+    return this;
+  };
+
+  Minicolors.prototype.onConfirm = function(event) {
+    event.preventDefault();
+    return this.trigger('select', this.$minicolors.val());
+  };
+
+  return Minicolors;
+
+})(Backbone.View);
+
+Yacp.Input = (function(superClass) {
+  extend(Input, superClass);
+
+  function Input() {
+    return Input.__super__.constructor.apply(this, arguments);
+  }
+
+  Input.prototype.className = 'yacp-colorSelector';
+
+  Input.prototype.events = {
+    'click .yacp-controls': 'onClick',
+    'keyup .yacp-controls': 'onKeyUp'
+  };
+
+  Input.prototype.initialize = function(options) {
+    if (options == null) {
+      options = {};
+    }
+    this.users = options.users || [];
+    this.$color = $(options.color);
+    this.$input = $(options.input);
+    this.$color.addClass('yacp-controls');
+    this.$input.addClass('yacp-controls');
+    this.minicolors = options.minicolors || {
+      online: true
     };
+    return this.yacp = null;
+  };
 
-    Input.prototype.render = function() {
-      var v;
-      this.$el.toggleClass(this.className, true);
-      if (!_(v = this.$input.val()).isEmpty()) {
-        this.background(this.$color, v);
-      }
-      return this;
-    };
+  Input.prototype.render = function() {
+    var v;
+    this.$el.toggleClass(this.className, true);
+    if (!_(v = this.$input.val()).isEmpty()) {
+      this.background(this.$color, v);
+    }
+    return this;
+  };
 
-    Input.prototype.onClick = function(event) {
-      event.preventDefault();
-      if (this.yacp != null) {
-        return this.hide();
-      } else {
-        return this.show();
-      }
-    };
+  Input.prototype.onClick = function(event) {
+    event.preventDefault();
+    if (this.yacp != null) {
+      return this.hide();
+    } else {
+      return this.show();
+    }
+  };
 
-    Input.prototype.onKeyUp = function(event) {
-      if (this.$input.val().length < 4) {
-        return;
-      }
-      this.background(this.$color, this.$input.val());
-      return this.trigger('select', this.$input.val());
-    };
+  Input.prototype.onKeyUp = function(event) {
+    if (this.$input.val().length < 4) {
+      return;
+    }
+    this.background(this.$color, this.$input.val());
+    return this.trigger('select', this.$input.val());
+  };
 
-    Input.prototype.show = function() {
-      var _this = this;
-      this.yacp = new Backbone.Yacp({
-        users: this.users,
-        minicolors: this.minicolors
-      });
-      this.$input.after(this.yacp.render().el);
-      return this.yacp.listenTo(this.yacp, 'select', function(color) {
+  Input.prototype.show = function() {
+    this.yacp = new Yacp({
+      users: this.users,
+      minicolors: this.minicolors
+    });
+    this.$input.after(this.yacp.render().el);
+    return this.yacp.listenTo(this.yacp, 'select', (function(_this) {
+      return function(color) {
         _this.$input.attr({
           value: color
         }).change();
@@ -240,33 +245,900 @@
         _this.yacp.remove();
         _this.yacp = null;
         return _this.trigger('select', color);
-      });
+      };
+    })(this));
+  };
+
+  Input.prototype.hide = function() {
+    var ref;
+    if ((ref = this.yacp) != null) {
+      ref.remove();
+    }
+    return this.yacp = null;
+  };
+
+  Input.prototype.background = function($el, color) {
+    return $el.css('background-color', color);
+  };
+
+  Input.prototype.remove = function() {
+    var ref;
+    this.$el.toggleClass(this.className, false);
+    this.$('.yacp-controls').removeClass('yacp-controls');
+    if ((ref = this.yacp) != null) {
+      ref.remove();
+    }
+    return Input.__super__.remove.apply(this, arguments);
+  };
+
+  return Input;
+
+})(Backbone.View);
+
+module.exports = Yacp;
+
+
+},{"backbone":"backbone","jquery":"jquery","jquery-minicolors":2,"underscore":"underscore"}],2:[function(require,module,exports){
+/*
+ * jQuery MiniColors: A tiny color picker built on jQuery
+ *
+ * Copyright: Cory LaViska for A Beautiful Site, LLC: http://www.abeautifulsite.net/
+ *
+ * Contribute: https://github.com/claviska/jquery-minicolors
+ *
+ * @license: http://opensource.org/licenses/MIT
+ *
+ */
+(function (factory) {
+    /* jshint ignore:start */
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['jquery'], factory);
+    } else if (typeof exports === 'object') {
+        // Node/CommonJS
+        module.exports = factory(require('jquery'));
+    } else {
+        // Browser globals
+        factory(jQuery);
+    }
+    /* jshint ignore:end */
+}(function ($) {
+
+    // Defaults
+    $.minicolors = {
+        defaults: {
+            animationSpeed: 50,
+            animationEasing: 'swing',
+            change: null,
+            changeDelay: 0,
+            control: 'hue',
+            dataUris: true,
+            defaultValue: '',
+            hide: null,
+            hideSpeed: 100,
+            inline: false,
+            letterCase: 'lowercase',
+            opacity: false,
+            position: 'bottom left',
+            show: null,
+            showSpeed: 100,
+            theme: 'default'
+        }
     };
 
-    Input.prototype.hide = function() {
-      var _ref4;
-      if ((_ref4 = this.yacp) != null) {
-        _ref4.remove();
-      }
-      return this.yacp = null;
-    };
+    // Public methods
+    $.extend($.fn, {
+        minicolors: function(method, data) {
 
-    Input.prototype.background = function($el, color) {
-      return $el.css('background-color', color);
-    };
+            switch(method) {
 
-    Input.prototype.remove = function() {
-      var _ref4;
-      this.$el.toggleClass(this.className, false);
-      this.$('.yacp-controls').removeClass('yacp-controls');
-      if ((_ref4 = this.yacp) != null) {
-        _ref4.remove();
-      }
-      return Input.__super__.remove.apply(this, arguments);
-    };
+                // Destroy the control
+                case 'destroy':
+                    $(this).each( function() {
+                        destroy($(this));
+                    });
+                    return $(this);
 
-    return Input;
+                // Hide the color picker
+                case 'hide':
+                    hide();
+                    return $(this);
 
-  })(Backbone.View);
+                // Get/set opacity
+                case 'opacity':
+                    // Getter
+                    if( data === undefined ) {
+                        // Getter
+                        return $(this).attr('data-opacity');
+                    } else {
+                        // Setter
+                        $(this).each( function() {
+                            updateFromInput($(this).attr('data-opacity', data));
+                        });
+                    }
+                    return $(this);
 
-}).call(this);
+                // Get an RGB(A) object based on the current color/opacity
+                case 'rgbObject':
+                    return rgbObject($(this), method === 'rgbaObject');
+
+                // Get an RGB(A) string based on the current color/opacity
+                case 'rgbString':
+                case 'rgbaString':
+                    return rgbString($(this), method === 'rgbaString');
+
+                // Get/set settings on the fly
+                case 'settings':
+                    if( data === undefined ) {
+                        return $(this).data('minicolors-settings');
+                    } else {
+                        // Setter
+                        $(this).each( function() {
+                            var settings = $(this).data('minicolors-settings') || {};
+                            destroy($(this));
+                            $(this).minicolors($.extend(true, settings, data));
+                        });
+                    }
+                    return $(this);
+
+                // Show the color picker
+                case 'show':
+                    show( $(this).eq(0) );
+                    return $(this);
+
+                // Get/set the hex color value
+                case 'value':
+                    if( data === undefined ) {
+                        // Getter
+                        return $(this).val();
+                    } else {
+                        // Setter
+                        $(this).each( function() {
+                            updateFromInput($(this).val(data));
+                        });
+                    }
+                    return $(this);
+
+                // Initializes the control
+                default:
+                    if( method !== 'create' ) data = method;
+                    $(this).each( function() {
+                        init($(this), data);
+                    });
+                    return $(this);
+
+            }
+
+        }
+    });
+
+    // Initialize input elements
+    function init(input, settings) {
+
+        var minicolors = $('<div class="minicolors" />'),
+            defaults = $.minicolors.defaults;
+
+        // Do nothing if already initialized
+        if( input.data('minicolors-initialized') ) return;
+
+        // Handle settings
+        settings = $.extend(true, {}, defaults, settings);
+
+        // The wrapper
+        minicolors
+            .addClass('minicolors-theme-' + settings.theme)
+            .toggleClass('minicolors-with-opacity', settings.opacity)
+            .toggleClass('minicolors-no-data-uris', settings.dataUris !== true);
+
+        // Custom positioning
+        if( settings.position !== undefined ) {
+            $.each(settings.position.split(' '), function() {
+                minicolors.addClass('minicolors-position-' + this);
+            });
+        }
+
+        // The input
+        input
+            .addClass('minicolors-input')
+            .data('minicolors-initialized', false)
+            .data('minicolors-settings', settings)
+            .prop('size', 7)
+            .wrap(minicolors)
+            .after(
+                '<div class="minicolors-panel minicolors-slider-' + settings.control + '">' +
+                    '<div class="minicolors-slider minicolors-sprite">' +
+                        '<div class="minicolors-picker"></div>' +
+                    '</div>' +
+                    '<div class="minicolors-opacity-slider minicolors-sprite">' +
+                        '<div class="minicolors-picker"></div>' +
+                    '</div>' +
+                    '<div class="minicolors-grid minicolors-sprite">' +
+                        '<div class="minicolors-grid-inner"></div>' +
+                        '<div class="minicolors-picker"><div></div></div>' +
+                    '</div>' +
+                '</div>'
+            );
+
+        // The swatch
+        if( !settings.inline ) {
+            input.after('<span class="minicolors-swatch minicolors-sprite"><span class="minicolors-swatch-color"></span></span>');
+            input.next('.minicolors-swatch').on('click', function(event) {
+                event.preventDefault();
+                input.focus();
+            });
+        }
+
+        // Prevent text selection in IE
+        input.parent().find('.minicolors-panel').on('selectstart', function() { return false; }).end();
+
+        // Inline controls
+        if( settings.inline ) input.parent().addClass('minicolors-inline');
+
+        updateFromInput(input, false);
+
+        input.data('minicolors-initialized', true);
+
+    }
+
+    // Returns the input back to its original state
+    function destroy(input) {
+
+        var minicolors = input.parent();
+
+        // Revert the input element
+        input
+            .removeData('minicolors-initialized')
+            .removeData('minicolors-settings')
+            .removeProp('size')
+            .removeClass('minicolors-input');
+
+        // Remove the wrap and destroy whatever remains
+        minicolors.before(input).remove();
+
+    }
+
+    // Shows the specified dropdown panel
+    function show(input) {
+
+        var minicolors = input.parent(),
+            panel = minicolors.find('.minicolors-panel'),
+            settings = input.data('minicolors-settings');
+
+        // Do nothing if uninitialized, disabled, inline, or already open
+        if( !input.data('minicolors-initialized') ||
+            input.prop('disabled') ||
+            minicolors.hasClass('minicolors-inline') ||
+            minicolors.hasClass('minicolors-focus')
+        ) return;
+
+        hide();
+
+        minicolors.addClass('minicolors-focus');
+        panel
+            .stop(true, true)
+            .fadeIn(settings.showSpeed, function() {
+                if( settings.show ) settings.show.call(input.get(0));
+            });
+
+    }
+
+    // Hides all dropdown panels
+    function hide() {
+
+        $('.minicolors-focus').each( function() {
+
+            var minicolors = $(this),
+                input = minicolors.find('.minicolors-input'),
+                panel = minicolors.find('.minicolors-panel'),
+                settings = input.data('minicolors-settings');
+
+            panel.fadeOut(settings.hideSpeed, function() {
+                if( settings.hide ) settings.hide.call(input.get(0));
+                minicolors.removeClass('minicolors-focus');
+            });
+
+        });
+    }
+
+    // Moves the selected picker
+    function move(target, event, animate) {
+
+        var input = target.parents('.minicolors').find('.minicolors-input'),
+            settings = input.data('minicolors-settings'),
+            picker = target.find('[class$=-picker]'),
+            offsetX = target.offset().left,
+            offsetY = target.offset().top,
+            x = Math.round(event.pageX - offsetX),
+            y = Math.round(event.pageY - offsetY),
+            duration = animate ? settings.animationSpeed : 0,
+            wx, wy, r, phi;
+
+        // Touch support
+        if( event.originalEvent.changedTouches ) {
+            x = event.originalEvent.changedTouches[0].pageX - offsetX;
+            y = event.originalEvent.changedTouches[0].pageY - offsetY;
+        }
+
+        // Constrain picker to its container
+        if( x < 0 ) x = 0;
+        if( y < 0 ) y = 0;
+        if( x > target.width() ) x = target.width();
+        if( y > target.height() ) y = target.height();
+
+        // Constrain color wheel values to the wheel
+        if( target.parent().is('.minicolors-slider-wheel') && picker.parent().is('.minicolors-grid') ) {
+            wx = 75 - x;
+            wy = 75 - y;
+            r = Math.sqrt(wx * wx + wy * wy);
+            phi = Math.atan2(wy, wx);
+            if( phi < 0 ) phi += Math.PI * 2;
+            if( r > 75 ) {
+                r = 75;
+                x = 75 - (75 * Math.cos(phi));
+                y = 75 - (75 * Math.sin(phi));
+            }
+            x = Math.round(x);
+            y = Math.round(y);
+        }
+
+        // Move the picker
+        if( target.is('.minicolors-grid') ) {
+            picker
+                .stop(true)
+                .animate({
+                    top: y + 'px',
+                    left: x + 'px'
+                }, duration, settings.animationEasing, function() {
+                    updateFromControl(input, target);
+                });
+        } else {
+            picker
+                .stop(true)
+                .animate({
+                    top: y + 'px'
+                }, duration, settings.animationEasing, function() {
+                    updateFromControl(input, target);
+                });
+        }
+
+    }
+
+    // Sets the input based on the color picker values
+    function updateFromControl(input, target) {
+
+        function getCoords(picker, container) {
+
+            var left, top;
+            if( !picker.length || !container ) return null;
+            left = picker.offset().left;
+            top = picker.offset().top;
+
+            return {
+                x: left - container.offset().left + (picker.outerWidth() / 2),
+                y: top - container.offset().top + (picker.outerHeight() / 2)
+            };
+
+        }
+
+        var hue, saturation, brightness, x, y, r, phi,
+
+            hex = input.val(),
+            opacity = input.attr('data-opacity'),
+
+            // Helpful references
+            minicolors = input.parent(),
+            settings = input.data('minicolors-settings'),
+            swatch = minicolors.find('.minicolors-swatch'),
+
+            // Panel objects
+            grid = minicolors.find('.minicolors-grid'),
+            slider = minicolors.find('.minicolors-slider'),
+            opacitySlider = minicolors.find('.minicolors-opacity-slider'),
+
+            // Picker objects
+            gridPicker = grid.find('[class$=-picker]'),
+            sliderPicker = slider.find('[class$=-picker]'),
+            opacityPicker = opacitySlider.find('[class$=-picker]'),
+
+            // Picker positions
+            gridPos = getCoords(gridPicker, grid),
+            sliderPos = getCoords(sliderPicker, slider),
+            opacityPos = getCoords(opacityPicker, opacitySlider);
+
+        // Handle colors
+        if( target.is('.minicolors-grid, .minicolors-slider') ) {
+
+            // Determine HSB values
+            switch(settings.control) {
+
+                case 'wheel':
+                    // Calculate hue, saturation, and brightness
+                    x = (grid.width() / 2) - gridPos.x;
+                    y = (grid.height() / 2) - gridPos.y;
+                    r = Math.sqrt(x * x + y * y);
+                    phi = Math.atan2(y, x);
+                    if( phi < 0 ) phi += Math.PI * 2;
+                    if( r > 75 ) {
+                        r = 75;
+                        gridPos.x = 69 - (75 * Math.cos(phi));
+                        gridPos.y = 69 - (75 * Math.sin(phi));
+                    }
+                    saturation = keepWithin(r / 0.75, 0, 100);
+                    hue = keepWithin(phi * 180 / Math.PI, 0, 360);
+                    brightness = keepWithin(100 - Math.floor(sliderPos.y * (100 / slider.height())), 0, 100);
+                    hex = hsb2hex({
+                        h: hue,
+                        s: saturation,
+                        b: brightness
+                    });
+
+                    // Update UI
+                    slider.css('backgroundColor', hsb2hex({ h: hue, s: saturation, b: 100 }));
+                    break;
+
+                case 'saturation':
+                    // Calculate hue, saturation, and brightness
+                    hue = keepWithin(parseInt(gridPos.x * (360 / grid.width()), 10), 0, 360);
+                    saturation = keepWithin(100 - Math.floor(sliderPos.y * (100 / slider.height())), 0, 100);
+                    brightness = keepWithin(100 - Math.floor(gridPos.y * (100 / grid.height())), 0, 100);
+                    hex = hsb2hex({
+                        h: hue,
+                        s: saturation,
+                        b: brightness
+                    });
+
+                    // Update UI
+                    slider.css('backgroundColor', hsb2hex({ h: hue, s: 100, b: brightness }));
+                    minicolors.find('.minicolors-grid-inner').css('opacity', saturation / 100);
+                    break;
+
+                case 'brightness':
+                    // Calculate hue, saturation, and brightness
+                    hue = keepWithin(parseInt(gridPos.x * (360 / grid.width()), 10), 0, 360);
+                    saturation = keepWithin(100 - Math.floor(gridPos.y * (100 / grid.height())), 0, 100);
+                    brightness = keepWithin(100 - Math.floor(sliderPos.y * (100 / slider.height())), 0, 100);
+                    hex = hsb2hex({
+                        h: hue,
+                        s: saturation,
+                        b: brightness
+                    });
+
+                    // Update UI
+                    slider.css('backgroundColor', hsb2hex({ h: hue, s: saturation, b: 100 }));
+                    minicolors.find('.minicolors-grid-inner').css('opacity', 1 - (brightness / 100));
+                    break;
+
+                default:
+                    // Calculate hue, saturation, and brightness
+                    hue = keepWithin(360 - parseInt(sliderPos.y * (360 / slider.height()), 10), 0, 360);
+                    saturation = keepWithin(Math.floor(gridPos.x * (100 / grid.width())), 0, 100);
+                    brightness = keepWithin(100 - Math.floor(gridPos.y * (100 / grid.height())), 0, 100);
+                    hex = hsb2hex({
+                        h: hue,
+                        s: saturation,
+                        b: brightness
+                    });
+
+                    // Update UI
+                    grid.css('backgroundColor', hsb2hex({ h: hue, s: 100, b: 100 }));
+                    break;
+
+            }
+
+            // Adjust case
+            input.val( convertCase(hex, settings.letterCase) );
+
+        }
+
+        // Handle opacity
+        if( target.is('.minicolors-opacity-slider') ) {
+            if( settings.opacity ) {
+                opacity = parseFloat(1 - (opacityPos.y / opacitySlider.height())).toFixed(2);
+            } else {
+                opacity = 1;
+            }
+            if( settings.opacity ) input.attr('data-opacity', opacity);
+        }
+
+        // Set swatch color
+        swatch.find('SPAN').css({
+            backgroundColor: hex,
+            opacity: opacity
+        });
+
+        // Handle change event
+        doChange(input, hex, opacity);
+
+    }
+
+    // Sets the color picker values from the input
+    function updateFromInput(input, preserveInputValue) {
+
+        var hex,
+            hsb,
+            opacity,
+            x, y, r, phi,
+
+            // Helpful references
+            minicolors = input.parent(),
+            settings = input.data('minicolors-settings'),
+            swatch = minicolors.find('.minicolors-swatch'),
+
+            // Panel objects
+            grid = minicolors.find('.minicolors-grid'),
+            slider = minicolors.find('.minicolors-slider'),
+            opacitySlider = minicolors.find('.minicolors-opacity-slider'),
+
+            // Picker objects
+            gridPicker = grid.find('[class$=-picker]'),
+            sliderPicker = slider.find('[class$=-picker]'),
+            opacityPicker = opacitySlider.find('[class$=-picker]');
+
+        // Determine hex/HSB values
+        hex = convertCase(parseHex(input.val(), true), settings.letterCase);
+        if( !hex ){
+            hex = convertCase(parseHex(settings.defaultValue, true), settings.letterCase);
+        }
+        hsb = hex2hsb(hex);
+
+        // Update input value
+        if( !preserveInputValue ) input.val(hex);
+
+        // Determine opacity value
+        if( settings.opacity ) {
+            // Get from data-opacity attribute and keep within 0-1 range
+            opacity = input.attr('data-opacity') === '' ? 1 : keepWithin(parseFloat(input.attr('data-opacity')).toFixed(2), 0, 1);
+            if( isNaN(opacity) ) opacity = 1;
+            input.attr('data-opacity', opacity);
+            swatch.find('SPAN').css('opacity', opacity);
+
+            // Set opacity picker position
+            y = keepWithin(opacitySlider.height() - (opacitySlider.height() * opacity), 0, opacitySlider.height());
+            opacityPicker.css('top', y + 'px');
+        }
+
+        // Update swatch
+        swatch.find('SPAN').css('backgroundColor', hex);
+
+        // Determine picker locations
+        switch(settings.control) {
+
+            case 'wheel':
+                // Set grid position
+                r = keepWithin(Math.ceil(hsb.s * 0.75), 0, grid.height() / 2);
+                phi = hsb.h * Math.PI / 180;
+                x = keepWithin(75 - Math.cos(phi) * r, 0, grid.width());
+                y = keepWithin(75 - Math.sin(phi) * r, 0, grid.height());
+                gridPicker.css({
+                    top: y + 'px',
+                    left: x + 'px'
+                });
+
+                // Set slider position
+                y = 150 - (hsb.b / (100 / grid.height()));
+                if( hex === '' ) y = 0;
+                sliderPicker.css('top', y + 'px');
+
+                // Update panel color
+                slider.css('backgroundColor', hsb2hex({ h: hsb.h, s: hsb.s, b: 100 }));
+                break;
+
+            case 'saturation':
+                // Set grid position
+                x = keepWithin((5 * hsb.h) / 12, 0, 150);
+                y = keepWithin(grid.height() - Math.ceil(hsb.b / (100 / grid.height())), 0, grid.height());
+                gridPicker.css({
+                    top: y + 'px',
+                    left: x + 'px'
+                });
+
+                // Set slider position
+                y = keepWithin(slider.height() - (hsb.s * (slider.height() / 100)), 0, slider.height());
+                sliderPicker.css('top', y + 'px');
+
+                // Update UI
+                slider.css('backgroundColor', hsb2hex({ h: hsb.h, s: 100, b: hsb.b }));
+                minicolors.find('.minicolors-grid-inner').css('opacity', hsb.s / 100);
+                break;
+
+            case 'brightness':
+                // Set grid position
+                x = keepWithin((5 * hsb.h) / 12, 0, 150);
+                y = keepWithin(grid.height() - Math.ceil(hsb.s / (100 / grid.height())), 0, grid.height());
+                gridPicker.css({
+                    top: y + 'px',
+                    left: x + 'px'
+                });
+
+                // Set slider position
+                y = keepWithin(slider.height() - (hsb.b * (slider.height() / 100)), 0, slider.height());
+                sliderPicker.css('top', y + 'px');
+
+                // Update UI
+                slider.css('backgroundColor', hsb2hex({ h: hsb.h, s: hsb.s, b: 100 }));
+                minicolors.find('.minicolors-grid-inner').css('opacity', 1 - (hsb.b / 100));
+                break;
+
+            default:
+                // Set grid position
+                x = keepWithin(Math.ceil(hsb.s / (100 / grid.width())), 0, grid.width());
+                y = keepWithin(grid.height() - Math.ceil(hsb.b / (100 / grid.height())), 0, grid.height());
+                gridPicker.css({
+                    top: y + 'px',
+                    left: x + 'px'
+                });
+
+                // Set slider position
+                y = keepWithin(slider.height() - (hsb.h / (360 / slider.height())), 0, slider.height());
+                sliderPicker.css('top', y + 'px');
+
+                // Update panel color
+                grid.css('backgroundColor', hsb2hex({ h: hsb.h, s: 100, b: 100 }));
+                break;
+
+        }
+
+        // Fire change event, but only if minicolors is fully initialized
+        if( input.data('minicolors-initialized') ) {
+            doChange(input, hex, opacity);
+        }
+
+    }
+
+    // Runs the change and changeDelay callbacks
+    function doChange(input, hex, opacity) {
+
+        var settings = input.data('minicolors-settings'),
+            lastChange = input.data('minicolors-lastChange');
+
+        // Only run if it actually changed
+        if( !lastChange || lastChange.hex !== hex || lastChange.opacity !== opacity ) {
+
+            // Remember last-changed value
+            input.data('minicolors-lastChange', {
+                hex: hex,
+                opacity: opacity
+            });
+
+            // Fire change event
+            if( settings.change ) {
+                if( settings.changeDelay ) {
+                    // Call after a delay
+                    clearTimeout(input.data('minicolors-changeTimeout'));
+                    input.data('minicolors-changeTimeout', setTimeout( function() {
+                        settings.change.call(input.get(0), hex, opacity);
+                    }, settings.changeDelay));
+                } else {
+                    // Call immediately
+                    settings.change.call(input.get(0), hex, opacity);
+                }
+            }
+            input.trigger('change').trigger('input');
+        }
+
+    }
+
+    // Generates an RGB(A) object based on the input's value
+    function rgbObject(input) {
+        var hex = parseHex($(input).val(), true),
+            rgb = hex2rgb(hex),
+            opacity = $(input).attr('data-opacity');
+        if( !rgb ) return null;
+        if( opacity !== undefined ) $.extend(rgb, { a: parseFloat(opacity) });
+        return rgb;
+    }
+
+    // Genearates an RGB(A) string based on the input's value
+    function rgbString(input, alpha) {
+        var hex = parseHex($(input).val(), true),
+            rgb = hex2rgb(hex),
+            opacity = $(input).attr('data-opacity');
+        if( !rgb ) return null;
+        if( opacity === undefined ) opacity = 1;
+        if( alpha ) {
+            return 'rgba(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ', ' + parseFloat(opacity) + ')';
+        } else {
+            return 'rgb(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ')';
+        }
+    }
+
+    // Converts to the letter case specified in settings
+    function convertCase(string, letterCase) {
+        return letterCase === 'uppercase' ? string.toUpperCase() : string.toLowerCase();
+    }
+
+    // Parses a string and returns a valid hex string when possible
+    function parseHex(string, expand) {
+        string = string.replace(/[^A-F0-9]/ig, '');
+        if( string.length !== 3 && string.length !== 6 ) return '';
+        if( string.length === 3 && expand ) {
+            string = string[0] + string[0] + string[1] + string[1] + string[2] + string[2];
+        }
+        return '#' + string;
+    }
+
+    // Keeps value within min and max
+    function keepWithin(value, min, max) {
+        if( value < min ) value = min;
+        if( value > max ) value = max;
+        return value;
+    }
+
+    // Converts an HSB object to an RGB object
+    function hsb2rgb(hsb) {
+        var rgb = {};
+        var h = Math.round(hsb.h);
+        var s = Math.round(hsb.s * 255 / 100);
+        var v = Math.round(hsb.b * 255 / 100);
+        if(s === 0) {
+            rgb.r = rgb.g = rgb.b = v;
+        } else {
+            var t1 = v;
+            var t2 = (255 - s) * v / 255;
+            var t3 = (t1 - t2) * (h % 60) / 60;
+            if( h === 360 ) h = 0;
+            if( h < 60 ) { rgb.r = t1; rgb.b = t2; rgb.g = t2 + t3; }
+            else if( h < 120 ) {rgb.g = t1; rgb.b = t2; rgb.r = t1 - t3; }
+            else if( h < 180 ) {rgb.g = t1; rgb.r = t2; rgb.b = t2 + t3; }
+            else if( h < 240 ) {rgb.b = t1; rgb.r = t2; rgb.g = t1 - t3; }
+            else if( h < 300 ) {rgb.b = t1; rgb.g = t2; rgb.r = t2 + t3; }
+            else if( h < 360 ) {rgb.r = t1; rgb.g = t2; rgb.b = t1 - t3; }
+            else { rgb.r = 0; rgb.g = 0; rgb.b = 0; }
+        }
+        return {
+            r: Math.round(rgb.r),
+            g: Math.round(rgb.g),
+            b: Math.round(rgb.b)
+        };
+    }
+
+    // Converts an RGB object to a hex string
+    function rgb2hex(rgb) {
+        var hex = [
+            rgb.r.toString(16),
+            rgb.g.toString(16),
+            rgb.b.toString(16)
+        ];
+        $.each(hex, function(nr, val) {
+            if (val.length === 1) hex[nr] = '0' + val;
+        });
+        return '#' + hex.join('');
+    }
+
+    // Converts an HSB object to a hex string
+    function hsb2hex(hsb) {
+        return rgb2hex(hsb2rgb(hsb));
+    }
+
+    // Converts a hex string to an HSB object
+    function hex2hsb(hex) {
+        var hsb = rgb2hsb(hex2rgb(hex));
+        if( hsb.s === 0 ) hsb.h = 360;
+        return hsb;
+    }
+
+    // Converts an RGB object to an HSB object
+    function rgb2hsb(rgb) {
+        var hsb = { h: 0, s: 0, b: 0 };
+        var min = Math.min(rgb.r, rgb.g, rgb.b);
+        var max = Math.max(rgb.r, rgb.g, rgb.b);
+        var delta = max - min;
+        hsb.b = max;
+        hsb.s = max !== 0 ? 255 * delta / max : 0;
+        if( hsb.s !== 0 ) {
+            if( rgb.r === max ) {
+                hsb.h = (rgb.g - rgb.b) / delta;
+            } else if( rgb.g === max ) {
+                hsb.h = 2 + (rgb.b - rgb.r) / delta;
+            } else {
+                hsb.h = 4 + (rgb.r - rgb.g) / delta;
+            }
+        } else {
+            hsb.h = -1;
+        }
+        hsb.h *= 60;
+        if( hsb.h < 0 ) {
+            hsb.h += 360;
+        }
+        hsb.s *= 100/255;
+        hsb.b *= 100/255;
+        return hsb;
+    }
+
+    // Converts a hex string to an RGB object
+    function hex2rgb(hex) {
+        hex = parseInt(((hex.indexOf('#') > -1) ? hex.substring(1) : hex), 16);
+        return {
+            /* jshint ignore:start */
+            r: hex >> 16,
+            g: (hex & 0x00FF00) >> 8,
+            b: (hex & 0x0000FF)
+            /* jshint ignore:end */
+        };
+    }
+
+    // Handle events
+    $(document)
+        // Hide on clicks outside of the control
+        .on('mousedown.minicolors touchstart.minicolors', function(event) {
+            if( !$(event.target).parents().add(event.target).hasClass('minicolors') ) {
+                hide();
+            }
+        })
+        // Start moving
+        .on('mousedown.minicolors touchstart.minicolors', '.minicolors-grid, .minicolors-slider, .minicolors-opacity-slider', function(event) {
+            var target = $(this);
+            event.preventDefault();
+            $(document).data('minicolors-target', target);
+            move(target, event, true);
+        })
+        // Move pickers
+        .on('mousemove.minicolors touchmove.minicolors', function(event) {
+            var target = $(document).data('minicolors-target');
+            if( target ) move(target, event);
+        })
+        // Stop moving
+        .on('mouseup.minicolors touchend.minicolors', function() {
+            $(this).removeData('minicolors-target');
+        })
+        // Show panel when swatch is clicked
+        .on('mousedown.minicolors touchstart.minicolors', '.minicolors-swatch', function(event) {
+            var input = $(this).parent().find('.minicolors-input');
+            event.preventDefault();
+            show(input);
+        })
+        // Show on focus
+        .on('focus.minicolors', '.minicolors-input', function() {
+            var input = $(this);
+            if( !input.data('minicolors-initialized') ) return;
+            show(input);
+        })
+        // Fix hex on blur
+        .on('blur.minicolors', '.minicolors-input', function() {
+            var input = $(this),
+                settings = input.data('minicolors-settings');
+            if( !input.data('minicolors-initialized') ) return;
+
+            // Parse Hex
+            input.val(parseHex(input.val(), true));
+
+            // Is it blank?
+            if( input.val() === '' ) input.val(parseHex(settings.defaultValue, true));
+
+            // Adjust case
+            input.val( convertCase(input.val(), settings.letterCase) );
+
+        })
+        // Handle keypresses
+        .on('keydown.minicolors', '.minicolors-input', function(event) {
+            var input = $(this);
+            if( !input.data('minicolors-initialized') ) return;
+            switch(event.keyCode) {
+                case 9: // tab
+                    hide();
+                    break;
+                case 13: // enter
+                case 27: // esc
+                    hide();
+                    input.blur();
+                    break;
+            }
+        })
+        // Update on keyup
+        .on('keyup.minicolors', '.minicolors-input', function() {
+            var input = $(this);
+            if( !input.data('minicolors-initialized') ) return;
+            updateFromInput(input, true);
+        })
+        // Update on paste
+        .on('paste.minicolors', '.minicolors-input', function() {
+            var input = $(this);
+            if( !input.data('minicolors-initialized') ) return;
+            setTimeout( function() {
+                updateFromInput(input, true);
+            }, 1);
+        });
+
+}));
+},{"jquery":"jquery"}]},{},[1])(1)
+});
